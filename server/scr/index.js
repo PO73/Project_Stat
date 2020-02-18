@@ -6,6 +6,7 @@ const cors = require('cors');
 require('dotenv').config(); //Setup environment variables
 
 const middlewares = require('./middlewares')
+const sendEmail = require('./sendEmail');
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.get('/customHTML', (req, res) => {
 app.post('/giveMeData', (req, res) => {
     console.log(req.body)
 });
+
+app.post('/sendEmail', sendEmail.email);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

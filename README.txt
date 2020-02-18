@@ -7,7 +7,9 @@ Setup Environment:
 	npm i mysql
 	npm i -D eslint nodemon
 	npm i dotenv
+	npm i nodemailer
 	npm i ejs
 
 Run on Local Machine:
-	npm run dev
+	npm run dev in console
+	In the browser type http://localhost:3000 to launch website locally
