@@ -11,7 +11,7 @@ const generateLab = (req, res) => {
     //Check user type
         //If teacher or admin show everything including feedback/answers
         //Else, only show questions
-    var showFeedbackImmediately = true;
+    var showFeedbackImmediately = false;
 
     var results = "";
     if(testFormType.localeCompare("Lab") == 0){

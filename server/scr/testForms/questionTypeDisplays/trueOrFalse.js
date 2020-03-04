@@ -3,11 +3,11 @@ const displayTorF = (questionNumber, question) => {
     TorFDisplayString += questionNumber + ". " + question;
     TorFDisplayString += "<br>";
 
-    TorFDisplayString += "<input type=\"radio\" class=\"Inpust Field\" id=\"TF_" + questionNumber + "OptionalAnswer0\" name=\"optionsFor" + questionNumber + "\" value=\"True\">";
-    TorFDisplayString += "<label for=\"TorF_" + questionNumber + "OptionalAnswer0\"> True </label>";
+    TorFDisplayString += "<input type=\"radio\" class=\"Inpust Field\" id=\"TF_" + questionNumber + "_OptionalAnswer_0\" name=\"optionsFor" + questionNumber + "\" value=\"True\">";
+    TorFDisplayString += "<label for=\"TorF_" + questionNumber + "_OptionalAnswer_0\"> True </label>";
 
-    TorFDisplayString += "<input type=\"radio\" class=\"Inpust Field\" id=\"TF_" + questionNumber + "OptionalAnswer1\" name=\"optionsFor" + questionNumber + "\" value=\"False\">";
-    TorFDisplayString += "<label for=\"TorF_" + questionNumber + "OptionalAnswer1\"> False </label>";
+    TorFDisplayString += "<input type=\"radio\" class=\"Inpust Field\" id=\"TF_" + questionNumber + "_OptionalAnswer_1\" name=\"optionsFor" + questionNumber + "\" value=\"False\">";
+    TorFDisplayString += "<label for=\"TorF_" + questionNumber + "_OptionalAnswer_1\"> False </label>";
 
     TorFDisplayString += "<br></br>";
     TorFDisplayString += "</div>"

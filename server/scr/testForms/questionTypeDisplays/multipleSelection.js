@@ -4,8 +4,8 @@ const displayMS = (questionNumber, question, optionalAnswers) => {
     MSDisplayString += "<br>";
 
     for (const [i, element] of optionalAnswers.entries()) {
-        MSDisplayString += "<input type=\"checkbox\" class=\"Inpust Field\" id=\"MS_" + questionNumber + "OptionalAnswer" + i + "\" name=\"option" + i + "\" value=\"" + element + "\">";
-        MSDisplayString += "<label for=\"MS_" + questionNumber + "OptionalAnswer" + i + "\">" + element + "</label><br>";
+        MSDisplayString += "<input type=\"checkbox\" class=\"Inpust Field\" id=\"MS_" + questionNumber + "_OptionalAnswer_" + i + "\" name=\"option" + i + "\" value=\"" + element + "\">";
+        MSDisplayString += "<label for=\"MS_" + questionNumber + "_OptionalAnswer_" + i + "\">" + element + "</label><br>";
     }
 
     MSDisplayString += "<br></br>";

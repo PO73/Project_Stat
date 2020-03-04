@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="../css/ccstyle.css">
 	<link rel="stylesheet" href="../css/navbar.css">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+	<script type="text/javascript" src="..//javascript/contactForm.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">	
 </head>
@@ -28,22 +29,22 @@
 
 
 <p align="center"> We’re here to help and answer any questions you may have. We look forward to hearing from you.</p>
-
+<div id="responseArea"></div>
 	<div class="containerform">
-		<form action="/action_page.php">
-		  <label for="fname">First Name</label>
-		  <input type="text" id="fname" name="firstname">
+		<form onsubmit="return false">
+		  <label for="name">Name</label>
+		  <input type="text" id="name" name="name">
 	  
-		  <label for="emailad">Email</label>
-		  <input type="text" id="email" name="emailaddress">
+		  <label for="emailAddress">Email</label>
+		  <input type="text" id="emailAddress" name="emailAddress">
 	  
-		  <label for="phonenum">Phone</label>
-		  <input type="text" id="phone" name="phonenumber">
+		  <label for="phoneNumber">Phone</label>
+		  <input type="text" id="phoneNumber" name="phonenumber">
 	  
-		  <label for="subject">Message</label>
-		  <textarea id="subject" name="subject"></textarea>
+		  <label for="bodyMessage">Message</label>
+		  <textarea id="bodyMessage" name="bodyMessage"></textarea>
 	  
-		  <input type="submit" value="Send Message">
+		  <input type="submit" onclick="getInfo()" value="Send Message">
 		</form>
 	  </div>
 <br>

@@ -26,12 +26,15 @@ const generateQuestions = (questionSetID) => {
     jsonQuestions.forEach(element => {
         if(element["Question Type"].localeCompare("MC") == 0) {
             result += MC.displayMC(element["Question Number"], element["Question"], element["Question Options"]);
+            result += "<div class=\"feedBack\"></div>";
         }
         else if(element["Question Type"].localeCompare("TorF") == 0) {
             result += TorF.displayTorF(element["Question Number"], element["Question"]);
+            result += "<div class=\"feedBack\"></div>";
         }
         else if(element["Question Type"].localeCompare("MS") == 0) {
             result += MS.displayMS(element["Question Number"], element["Question"], element["Question Options"]);
+            result += "<div class=\"feedBack\"></div>";
         }
         else{
             console.log("Error generating testForm");

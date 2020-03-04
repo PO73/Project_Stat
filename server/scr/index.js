@@ -9,6 +9,7 @@ require('dotenv').config(); //Setup environment variables
 const middlewares = require('./middlewares')
 const sendEmail = require('./sendEmail');
 const testForm = require('./testForms/testForm');
+const gradeTestForm = require('./testForms/gradeTestForm');
 
 const app = express();
 
@@ -41,11 +42,18 @@ app.get('/', (req, res) => {
     res.sendFile("index.html");
 });
 
+app.post('/contactPageRequest', (req, res) => {
+    console.log(req.body)
+    //Send Email and see if it succeeded
+
+    res.json({
+        status: "Server still needs to tell me my own status"
+    });
+});
+
 app.get('/customHTML', testForm.generateLab);
 
-app.post('/giveMeData', (req, res) => {
-    console.log(req.body)
-});
+app.post('/gradeTestForm', gradeTestForm.gradeQuestions);
 
 app.post('/sendEmail', sendEmail.email);
 
