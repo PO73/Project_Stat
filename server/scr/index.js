@@ -2,7 +2,6 @@ const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
-const mysql = require('mysql');
 
 require('dotenv').config(); //Setup environment variables
 
@@ -10,6 +9,7 @@ const middlewares = require('./middlewares')
 const sendEmail = require('./sendEmail');
 const testForm = require('./testForms/testForm');
 const gradeTestForm = require('./testForms/gradeTestForm');
+const registerStudent = require('./userAccount/register');
 
 const app = express();
 
@@ -21,17 +21,6 @@ app.use(express.static('public'));
 
 //Needs to be change on deployment using .env file
 app.use(cors()); //Controls who/where request to our backend can come from
-
-//const con = mysql.createConnection({
-//    host: "",
-//    user: "",
-//    password: ""
-//});
-
-//con.connect(function(err) {
-//    if (err) throw err;
-//    console.log("Connected!");
-//});
 
 const port = process.env.PORT || 3000; //Use port 3000 or port defined in the .env file
 app.listen(port, () =>{
@@ -49,6 +38,12 @@ app.post('/contactPageRequest', (req, res) => {
     res.json({
         status: "Server still needs to tell me my own status"
     });
+});
+
+app.post('/registerStudent', registerStudent.checkStudentAccount);
+
+app.get('/loginPage', (req, res) => {
+    console.log(req.body)
 });
 
 app.get('/customHTML', testForm.generateLab);

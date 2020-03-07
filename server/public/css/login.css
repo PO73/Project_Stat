@@ -1,0 +1,65 @@
+<style>
+body {
+	background-image: url(logo.png);
+ 	font-family: sans-serif;
+	height: 100vh;
+        background-size: cover;
+        background-position: center;
+	
+	
+ 
+}
+form {border: 3px solid #f1f1f1;}
+
+input[type=text], input[type=password] {
+  width: 100%;
+  padding: 12px 10px;
+  margin: 10px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+button {
+  background-color: #6495ED;
+  color: white;
+  padding: 15px 20px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.login {
+  padding: 6px;
+  width: 420px;
+  background: #9a9797;
+  color: #fff;
+  position: absolute;
+  box-sizing: border-box; 
+  top: 50%
+  left: 50%
+  
+  
+}
+
+
+
+
+.account:hover {
+	opacity: 0.5;
+}
+	
+.password:hover {
+	opacity: 0.5;
+}
+
+
+
+
+</style>
