@@ -1,7 +1,53 @@
 const mysql = require('mysql');
 const bcrypt = require('bcryptjs');
 
-const checkStudentAccount = (req, res) => { 
+//Connect to DB
+const db = mysql.createPool({
+    connectionLimit : 50,
+    host: 'localhost',
+    user: 'root',
+    password: '12345',
+    port: '3306',
+    database: 'mydb',
+});
+
+//Check user email to see if it exist
+function checkEmail(emailaddress) {
+    return new Promise((resolve, reject) => {
+        let emailCheck = {Email: emailaddress};
+        let mySqlCheck = 'SELECT EXISTS(SELECT * FROM user WHERE ?)';
+        db.query(mySqlCheck, emailCheck, (err, results) => {
+            if(err){
+                return reject(1);
+            }
+            else{
+                var jsonThing = JSON.parse(JSON.stringify(results[0]))
+                for (var key in jsonThing) {
+                    return resolve(jsonThing[key]);
+                }
+                return reject(1);
+            }
+        });
+    });
+}
+
+//Add user to the database
+function pushNewUser(firstname, lastname, emailaddress, hash, userGender, birth, state, type){
+    return new Promise((resolve, reject) => {
+        let insertion = {Name: firstname + " " + lastname, Email: emailaddress, Password: hash, Gender: userGender, 'Date of Birth': birth, State: state, 'User Type': type };
+        let sql = 'INSERT INTO user SET ?';
+        db.query(sql, insertion, (err, result) => {
+            if(err){
+                return reject(false);
+            } 
+            else{
+                return resolve(true);
+            }
+        });
+    });
+}
+
+const checkStudentAccount = async (req, res) => { 
     const data = req.body;
 
     var firstname = data.firstname;
@@ -45,28 +91,29 @@ const checkStudentAccount = (req, res) => {
     
     if(failCase){ //Wrong info was given
         res.json({
-            status: returnMesssage
+            status: returnMesssage,
+            URL: 'html/registration.html'
         }); 
     }
     else{
-        const db = mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '12345',
-            port: '3306',
-            database: 'mydb',
-        });
-        
-        db.connect((err) => {
-            if(err){
-                throw err;
+        var isEmailUnique = false;
+        try{
+            var x = await checkEmail(emailaddress);
+            if(x > 0){
+                isEmailUnique = false;
             }
-            //Check user email to see if it exist
-
+            else{
+                isEmailUnique = true;
+            }
+        } catch(error){
+            isEmailUnique = false;
+        }
+        
+        if(isEmailUnique){
             //Hash Password
             var salt = bcrypt.genSaltSync(10);
             var hash = bcrypt.hashSync(pswd, salt);
-            
+
             //Check user gender answer
             var userGender = null;
             if(genderMale){
@@ -86,13 +133,33 @@ const checkStudentAccount = (req, res) => {
                 state = null;
             }
 
-            let insertion = {Name: firstname + " " + lastname, Email: emailaddress, Password: hash, Gender: userGender, 'Date of Birth': birth, State: state };
-            let sql = 'INSERT INTO user SET ?';
-        });
-
-        res.json({
-            status: "Success"
-        });
+            //Attempt to add user to database
+            try{
+                var x = await pushNewUser(firstname, lastname, emailaddress, hash, userGender, birth, state, "Student");
+                if(x){
+                    console.log("User Added");
+                    res.json({
+                        status: "Success",
+                        URL: 'studentDashboard'
+                    });
+                }
+                else{
+                    console.log("User Not Added");
+                }
+            }
+            catch{
+                res.json({
+                    status: "Sever error...",
+                    URL: 'html/registration.html'
+                });
+            }
+        }
+        else{
+            res.json({
+                status: "Email in use...",
+                URL: 'html/registration.html'
+            });
+        }
     }
 };
 

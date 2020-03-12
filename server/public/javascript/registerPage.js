@@ -8,7 +8,7 @@ async function getUserInput() {
     var state = document.getElementById('state').value;
     var genderMale = document.getElementById('Male').checked;
     var genderFemale = document.getElementById('Female').checked;
-    alert(birthdate);
+
 
     const data = {firstname, lastname, emailaddress, pswd, confirmpassword, birthdate, state, genderMale, genderFemale};
 
@@ -23,4 +23,7 @@ async function getUserInput() {
     const response = await fetch('/registerStudent', options);
     const responseData = await response.json();
     document.getElementById("responseArea").innerHTML = responseData.status;
+
+    var x = '/' + responseData.URL;
+    location.href = x;
 }

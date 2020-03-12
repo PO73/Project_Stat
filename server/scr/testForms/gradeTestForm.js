@@ -1,6 +1,7 @@
 const gradeQuestions = (req, res) => {  
     const userAnswers = req.body.userSelectedAnswers;
     var feedBack = [];
+    var questionStatus = [];
     var numberOfCorrect = 0;
 
     userAnswers.forEach(element => {
@@ -13,36 +14,37 @@ const gradeQuestions = (req, res) => {
         if(components[0].localeCompare('MC') == 0){
             var correctAnswer = "2";    
             if(components[3].localeCompare(correctAnswer) == 0){
-                console.log("Correct");
+                questionStatus.push("Correctly");
                 numberOfCorrect += 1;
             }
             else{
-                console.log("Incorrect");
+                questionStatus.push("Incorrectly");
             }
-            feedBack.push("MC");
+            feedBack.push("It be addition");
         }
         else if(components[0].localeCompare('TF') == 0) {
             var correctAnswer = "0";
             if(components[3].localeCompare(correctAnswer) == 0){
-                console.log("Correct");
+                questionStatus.push("Correctly");
                 numberOfCorrect += 1;
             }
             else{
-                console.log("Incorrect");
+                questionStatus.push("Incorrectly");
                 numberOfCorrect += 1;
             }
-            feedBack.push("TF");
+            feedBack.push("It be multiplication");
         }
         else if(components[0].localeCompare('MS') == 0) {
             var correctAnswer = "1";
+            var correctAnswerTwo = "2";
             if(components[3].localeCompare(correctAnswer) == 0){
-                console.log("Correct");
+                questionStatus.push("Correctly");
                 numberOfCorrect += 1;
             }
             else{
-                console.log("Incorrect");
+                questionStatus.push("Incorrectly");
             }
-            feedBack.push("MS");
+            feedBack.push("These are the even numbers");
         }
         else{
             console.log(components); //Someone messed with the client side code
@@ -50,8 +52,9 @@ const gradeQuestions = (req, res) => {
     });
 
     res.json({
-        questionFeedBack: feedBack
-    }); 
+        status: questionStatus,
+        feedback: feedBack
+    });
 };
 
 module.exports = {

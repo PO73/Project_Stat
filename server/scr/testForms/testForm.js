@@ -35,11 +35,9 @@ const generateLab = (req, res) => {
         results += answerKey.displayFeedback();
     }
     else{
-        results += "<button type=\"submit\" onclick=\"submitTestForm()\" value=\"Submit\">Submit</button>";
+        results += "<button type=\"submit\" onclick=\"submitTestForm()\" value=\"Submit\" class=\"labButtons\">Submit</button>";
     }
-
-    results += "<button type=\"back\" onclick=\"location.href='/index.html';\" value=\"Back\">Back</button>";
-    results += "<button type=\"print\" onclick=\"printPage()\" value=\"Print\">Print</button>";
+    results += "<button type=\"back\" onclick=\"location.href='/index.html';\" value=\"Back\" class=\"labButtons\">Back</button>";
 
     res.render('labTemplate', {giveMeInfo: results});
 };

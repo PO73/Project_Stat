@@ -21,19 +21,16 @@ async function submitTestForm() {
     };
     
     const response = await fetch('/gradeTestForm', options);
-    const responseData = await response.json();
-    //console.log(responseData.body);
+    const responseData = await response.json();    
+
     var feedbackElements = document.getElementsByClassName("feedBack");
-    //for(var i=0; i<feedbackElements.length; i++) {
-    
-    //}
+    for(i=0; i<feedbackElements.length; i++) {
+        feedbackElements[i].innerHTML += ("You answered " + responseData.status[i] + "<br>" );
+        feedbackElements[i].innerHTML += ("Feedback: " + responseData.feedback[i] + "<br>");
+        //feedbackElements.innerHTML
+    }
 }
 
 function printPage() {
     window.print();
-}
-
-function loadDashBoard(){
-    //Get request
-    //Before load, on server side, check to see if the user has correct level of access to load the page
 }

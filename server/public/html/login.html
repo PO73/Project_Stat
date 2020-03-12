@@ -3,13 +3,14 @@
 	<link rel="stylesheet" type="text/css" href="../css/projectstatHarsh.css"/>
     <link rel="stylesheet" href="../css/styles.css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="../javascript/loginPage.js"></script>
 
 	<meta name="description" content="Log In">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
   <header>
-    <a href="../index.html" target="_blank" class="logo" >
+    <a href="../index.html" class="logo" >
         <img src="../images/logo.png" alt="logo" width=120px;>
     </a>
       <nav>
@@ -23,17 +24,17 @@
 <br><br>
 
 <h1 align="center">Login Page</h1>
-
+<div id="responseArea"></div>
 <div class="login">
- <form action = "#" method = "post" onsubmit="return validatelogin();">
+ <form onsubmit="return false">
 
 	<label for="emailadd"><b>Email Address</b></label><br>
-    <input type="email" placeholder="Enter Email Address" name="emailadd" required>
+    <input type="email" placeholder="Enter Email Address" name="emailadd" id="emailadd" required>
 
     <label for="pass"><b>Password</b></label><br>
-    <input type="password" placeholder="Enter Password" name="pass" required>
-    <br><br>
-    <input type="submit" onclick="validatelogin()" value="Submit">
+    <input type="password" placeholder="Enter Password" name="pass" id="pass" required>
+    <a href="./ForgotPass.html">Forgot Password?</a><br><br>
+    <input type="submit" onclick="getUserInput()" value="Submit">
 	</form>
 </div>
 <br>
