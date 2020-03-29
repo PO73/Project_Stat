@@ -10,6 +10,13 @@ body {
   color: white;
 }
 
+.container{
+  position: relative;
+  width: 1200px;
+  height: 300px;
+  margin: 50px auto;
+}
+
 /* Increase the font size of the h1 element */
 .header h1 {
   font-size: 40px;

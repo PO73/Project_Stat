@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('contactus_head') %>
+</head>
+<body>
+	<header>
+        <%- include('../global_header') %>
+	</header>
+<h1 class="titlestyle">Contact Us</h1>
+<br>
+<p align="center"> We’re here to help and answer any questions you may have. We look forward to hearing from you.</p>
+<div id="responseArea"></div>
+	<div class="containerform">
+		<form onsubmit="return false">
+		  <label for="name">Name</label>
+		  <input type="text" id="name" name="name" placeholder="Name">
+	  
+		  <label for="emailAddress">Email</label>
+		  <input type="text" id="emailAddress" name="emailAddress" placeholder="Email">
+	  
+		  <label for="phoneNumber">Phone</label>
+		  <input type="text" id="phoneNumber" name="phonenumber" placeholder="Phone Number">
+	  
+		  <label for="bodyMessage">Message</label>
+		  <textarea id="bodyMessage" name="bodyMessage" placeholder="Enter Message"></textarea>
+	  
+		  <input style="margin: auto; display: block;" type="submit" onclick="getInfo()" value="Send Message">
+		</form>
+	  </div>
+<br>
+<br>
+    <footer>
+        <%- include('../global_footer') %>
+	</footer>
+</body>
+</html>

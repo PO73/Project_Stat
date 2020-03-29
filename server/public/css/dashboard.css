@@ -1,0 +1,135 @@
+.accordion{
+    margin-left: 300px;
+}
+
+  .accordion_button{
+    display: block;
+    width: 75%;
+    padding: 15px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #333333;
+    color: #ffffff;
+    text-align: left;
+    transition: background 0.2s;
+    align-items: center;
+  }
+
+  .accordion_button::after{
+    content: '\25be';
+    float: right;
+    transform: scale(1.5);
+  }
+
+  .accordion_button--active + .accordion_content {display: block}
+  .accordion_button--active{
+    background: #555555;
+  }
+  .accordion_button--active::after{
+    content: '\25b4';
+  }
+
+  .accordion_content{
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.2s;
+    
+    padding: 0 15px;
+    font-family: sans-serif;
+    background: white;
+    width: 75%;
+
+    /*display: none;
+    overflow: auto; */
+  }
+
+.accordion_content a{
+  font-size: 20px;
+  color: black;
+  text-align: center;
+  display: inline-block;
+}
+
+.accordion_content p{
+  font-size: 20px;
+  color: black;
+  /*text-align: center;
+  display: inline block;*/
+}
+
+  .button_container {
+	position: absolute;
+  left: 0;
+  right: 0;
+  top: 30%;
+}
+
+.btn {
+  border: none;
+  display: block;
+  text-align: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  background-color: #222;
+  padding: 12px 50px;
+  margin: 0 auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+  bottom: 50px;
+}
+
+.btn span {
+  position: relative; 
+  z-index: 1;
+}
+
+.btn:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 490%;
+  width: 140%;
+  background: grey;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+  -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+  transform: translateX(-98%) translateY(-25%) rotate(45deg);
+}
+
+.btn:hover:after {
+  -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+  transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.progress_bar{
+  position: relative;
+  width: 850px;
+  height: 3em;
+  background-color: grey;
+  border-radius: 1.5em;
+  color: black;
+  align-items: center;
+}
+
+.progress_bar::before{
+  content: attr(data-label);
+  display: flex;
+  align-items: center;
+  position: absolute;
+  left: .5em;
+  top: .5em;
+  bottom: .5em;
+  width: calc(var(--width,0)*1%);
+  min-width: 0rem;
+  max-width: calc(100% - 3em);
+  background-color: white;
+  border-radius: 1em;
+  padding: 1em;
+}

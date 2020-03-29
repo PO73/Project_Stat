@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('student_dash_head') %>
+    </head>
+<body>
+	<header>
+        <%- include('../global_header') %>
+    </header>
+	<br><br>
+    <br><br>
+    <h1 align="center">My Dashboard</h1>
+    <br>
+    <div class="button_container">
+        <button class="btn"><span>Achievements</span></button>
+    </div>
+    <br><br><br><br>
+    <div class="accordion">
+    <button type="button" class="accordion_button">Unit 1</button> 
+    <div class="accordion_content"><br>
+        <p>Lesson 1 </p><div class="progress_bar" data-label="50%" style="--width: 50"></div><br>
+        <a href="url"title="Take this to pass over the unit">Pre-Test</a> <br><br>
+        <a href="url">Interactive Module</a><br><br>
+        <a href="lab_questions.html">Lab</a><br><br>
+        <a href="url">Quiz</a><br><br>
+    </div>
+    <button type="button" class="accordion_button">Unit 2</button>
+    <div class="accordion_content"><br>
+    <p>Lesson 2 </p><div class="progress_bar" data-label="50%" style="--width: 50"></div><br>
+    <a href="url"title="Take this to pass over the unit">Pre-Test</a> <br><br>
+    <a href="url">Interactive Module</a><br><br>
+    <a href="url">Lab</a><br><br>
+    <a href="url">Quiz</a><br><br>
+    </div>
+    </div>
+    <br><br>
+    <script>
+    document.querySelectorAll('.accordion_button').forEach(button => {
+        button.addEventListener('click', () => {
+        const accordionContent = button.nextElementSibling;
+        button.classList.toggle('accordion_button--active');
+        if(button.classList.contains('accordion_button--active')){
+            accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+        }
+        else{
+            accordionContent.style.maxHeight = 0;
+        }
+        });
+    });
+    </script>
+</body>
+    <footer>
+        <%- include('../global_footer') %>
+    </footer>
+</html>
