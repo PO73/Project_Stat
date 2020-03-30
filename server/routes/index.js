@@ -1,7 +1,8 @@
 const express = require('express');
 const indexExpressRouter = express.Router();
 
-const registerUser = require('../scripts/userRegister');
+const studentRegister = require('../scripts/Register_User/studentRegister').studentRegister;
+const teacherRegister = require('../scripts/Register_User/teacherRegister').teacherRegister;
 const loginUser = require('../scripts/userLogin');
 
 indexExpressRouter.get('/', (req, res) =>{ //Load the home page
@@ -34,13 +35,13 @@ indexExpressRouter.get('/studentregister', (req, res) =>{ //Load the student reg
     res.render('./Register_Pages/student_register');
 });
 
-indexExpressRouter.post('/studentregister', registerUser.studentRegister); //Validate the data on the student registration form before creating a new account
+indexExpressRouter.post('/studentregister', studentRegister); //Validate the data on the student registration form before creating a new account
 
 
 indexExpressRouter.get('/teacherregister', (req, res) =>{ //Load the teacher register page
     res.render('./Register_Pages/teacher_register');
 });
 
-indexExpressRouter.post('/teacherregister', registerUser.teacherRegister); //Validate the data on the teacher registration form before creating a new account
+indexExpressRouter.post('/teacherregister', teacherRegister); //Validate the data on the teacher registration form before creating a new account
 
 module.exports = indexExpressRouter;
