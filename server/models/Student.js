@@ -17,6 +17,7 @@ const myStudent = db.define('student', {
     },
     ClassroomID: {
         type: Sequelize.INTEGER
+        //This needs a foreign key tag
     },
     DateOfBirth: {
         type: Sequelize.STRING
