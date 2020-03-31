@@ -1,4 +1,18 @@
 const registerHelper = require('./registerHelper');
+const Student = require('../../models/Student').myStudent;
+
+//Create a row in the student table that related to the newly generated user
+function createNewStudent(userID, bday, state, gender){
+    return new Promise((resolve, reject) => {
+        Student.create({ UserID: userID, DateOfBirth: bday, State: state, Gender: gender })
+        .then(newStudent => { //New user created
+            resolve(true);
+        })
+        .catch(error => { //New user not created
+            reject(true);
+        })
+    });
+}
 
 async function studentRegister (req, res) {
     //Get data entries from the student registration form
@@ -27,12 +41,33 @@ async function studentRegister (req, res) {
     }
     else {
         try{
-            var x = await registerHelper.createNewUser(fname, lname, emailadd, pass, "student");
-            if(x){ //The student user was successfully added to the DB
-                res.redirect('/user/studentdashboard');
+            var x = await registerHelper.createNewUser(fname, lname, emailadd, pass, "student"); //var x will contain the new ID for the student
+            if(x > 0){ //The student user was successfully added to the DB
+                try {
+                    var y = await createNewStudent(x, bday, state, gender);
+                    if(y){
+                        //create session
+                        req.session.active = true;
+                        var userSessionID = req.sessionID;
+                        try {
+                            await registerHelper.storeSessionID(emailadd, userSessionID);
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        
+                        res.redirect('/user/studentdashboard'); //redirect the user to the student dashboard
+                    }
+                    else{
+                        errorMessages.push({msg: "Failed to create new student..."});
+                        res.render('./Register_Pages/student_register', {errorMessages, fname, lname, emailadd});
+                    }
+                } catch {
+                    console.log("Database connection error on adding new student user...");
+                     res.render('./Register_Pages/student_register'); //Replace with a custom error page for our websit 
+                }
             }
             else{
-                errorMessages.push({msg: "Failed to create new student user..."});
+                errorMessages.push({msg: "Failed to create new user..."});
                 res.render('./Register_Pages/student_register', {errorMessages, fname, lname, emailadd});
             }
         }

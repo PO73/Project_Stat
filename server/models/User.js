@@ -30,6 +30,9 @@ const myUser = db.define('user', {
     Usertype: {
         type: Sequelize.STRING,
         allowNull: false
+    },
+    SessionID: {
+        type: Sequelize.STRING
     }
     }, {
     db,

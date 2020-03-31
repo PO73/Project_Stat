@@ -2,6 +2,7 @@ const express = require('express');
 const userExpressRouter = express.Router();
 
 userExpressRouter.get('/studentdashboard', (req, res) =>{ //Load the student dashboard
+    console.log(req.sessionID);
     res.render('./Student_Pages/studentDashboard');
 });
 

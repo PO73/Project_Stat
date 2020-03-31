@@ -58,10 +58,23 @@ function createNewUser(firstname, lastname, emailaddress, pswd, usertype){
     return new Promise((resolve, reject) => {
         User.create({ Firstname: firstname, Lastname: lastname, Email: emailaddress, Password: pswd, Usertype: usertype })
         .then(newUser => { //New user created
-            resolve(true);
+            resolve(newUser.dataValues.ID);
         })
         .catch(error => { //New user not created
-            reject(true);
+            reject(-1);
+        })
+    });
+}
+
+//Store the users session ID in the user table
+function storeSessionID(emailaddress, sessionID){
+    return new Promise((resolve, reject) => {
+        User.update({SessionID: sessionID}, {where: {Email: emailaddress}})
+        .then(update => { //Update successful 
+            resolve(true);
+        })
+        .catch(error => { //Update failed
+            reject(false);
         })
     });
 }
@@ -70,5 +83,6 @@ module.exports = {
     requiredInputCheck,
     encryptPassword,
     doesEmailAlreadyExist,
-    createNewUser
+    createNewUser,
+    storeSessionID
 }
