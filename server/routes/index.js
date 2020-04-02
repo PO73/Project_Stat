@@ -1,11 +1,12 @@
 const express = require('express');
 const indexExpressRouter = express.Router();
 
-const studentRegister = require('../scripts/Register_User/studentRegister').studentRegister;
-const teacherRegister = require('../scripts/Register_User/teacherRegister').teacherRegister;
+const permissions = require("../scripts/authentication/userPermissions");
+const studentRegister = require('../scripts/register user/studentRegister').studentRegister;
+const teacherRegister = require('../scripts/register user/teacherRegister').teacherRegister;
 const loginUser = require('../scripts/userLogin');
 
-indexExpressRouter.get('/', (req, res) =>{ //Load the home page
+indexExpressRouter.get('/', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the home page
     res.render('./Home_Page/home');
 });
 
@@ -21,24 +22,24 @@ indexExpressRouter.get('/calculators', (req, res) =>{ //Load the calculator page
     res.render('./Calculator_Page/calculator');
 });
 
-indexExpressRouter.get('/login', (req, res) =>{ //Load the login page
+indexExpressRouter.get('/login', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the login page
     res.render('./Login_Page/login');
 });
 
 indexExpressRouter.post('/userlogin', loginUser.userLogin); //Log in with an existing account
 
-indexExpressRouter.get('/passwordreset', (req, res) =>{ //Load the reset password page
+indexExpressRouter.get('/passwordreset', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the reset password page
     res.render('./Login_Page/passwordreset');
 });
 
-indexExpressRouter.get('/studentregister', (req, res) =>{ //Load the student register page
+indexExpressRouter.get('/studentregister', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the student register page
     res.render('./Register_Pages/student_register');
 });
 
 indexExpressRouter.post('/studentregister', studentRegister); //Validate the data on the student registration form before creating a new account
 
 
-indexExpressRouter.get('/teacherregister', (req, res) =>{ //Load the teacher register page
+indexExpressRouter.get('/teacherregister', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the teacher register page
     res.render('./Register_Pages/teacher_register');
 });
 

@@ -48,15 +48,17 @@ async function teacherRegister (req, res) {
                     var y = await createNewTeacher(x, school, state);
                     if(y){
                         //create session
-                        req.session.active = true;
+                        req.session.active = "true"; //This ensure the session id does not changes upon new request, and stores in DB (idk with this middleware) 
+                        //req.session.save(); //Stores the session id in DB but does not keep the session id on next request
                         var userSessionID = req.sessionID;
                         try {
-                            await registerHelper.storeSessionID(emailadd, userSessionID);
+                            var z = await registerHelper.storeSessionID(emailadd, userSessionID);
+                            if(z){
+                                res.redirect('/user/teacherdashboard'); //redirect the user to the teacher dashboard
+                            }
                         } catch (error) {
                             console.log(error);
                         }
-                        
-                        res.redirect('/user/teacherdashboard'); //redirect the user to the teacher dashboard
                     }
                     else{
                         errorMessages.push({msg: "Failed to create new teacher..."});
