@@ -18,15 +18,15 @@ async function setNavBar(sessionRequest){
         var x = await getUserType(sessionRequest);
         var path = 'undefined';
         if(x.localeCompare('student') == 0){
-            path = 'user/studentdashboard';
+            path = '/user/studentdashboard';
             return path;
         }
         else if(x.localeCompare('teacher') == 0){
-            path = 'user/teacherdashboard';
+            path = '/user/teacherdashboard';
             return path;
         }
         else if(x.localeCompare('admin') == 0){
-            path = 'user/adminDashboard';
+            path = '/user/adminDashboard';
             return path;
         }
         else{

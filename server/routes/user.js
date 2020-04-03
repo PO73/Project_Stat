@@ -2,6 +2,7 @@ const express = require('express');
 const userExpressRouter = express.Router();
 
 const permissions = require("../scripts/authentication/userPermissions");
+const navbar = require('../scripts/menu bar/navBarSetup');
 
 userExpressRouter.get('/studentdashboard', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, (req, res) => { //Load the student dashboard
     var userDash = '/user/studentdashboard';
@@ -16,6 +17,21 @@ userExpressRouter.get('/teacherdashboard', permissions.isUserAlreadyLogedIn, per
 userExpressRouter.get('/admindashboard', permissions.isUserAlreadyLogedIn, permissions.isUserAdmin, (req, res) => { //Load the admin dashboard
     var userDash = '/user/adminDashboard';
     res.render('./Admin_Pages/adminDashboard', {userDash});
+});
+
+userExpressRouter.get('/settingspage', permissions.isUserAlreadyLogedIn, async (req, res) => {
+    var userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
+    if(userDash){
+        res.render('./Settings_Page/account_Settings', {userDash}); //A user that is logged in is attempting to load this page
+    }
+    else{
+        res.render('./Settings_Page/account_Settings'); //A user that is not logged in is attempting to load this page
+    }
+});
+
+userExpressRouter.get('/logout', permissions.isUserAlreadyLogedIn, (req, res) => {
+    req.session.destroy(); //Log the user out by destorying their session
+    res.redirect('/');
 });
 
 module.exports = userExpressRouter;
