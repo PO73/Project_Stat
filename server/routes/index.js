@@ -2,6 +2,7 @@ const express = require('express');
 const indexExpressRouter = express.Router();
 
 const permissions = require("../scripts/authentication/userPermissions");
+const navbar = require('../scripts/menu bar/calculator');
 const studentRegister = require('../scripts/register user/studentRegister').studentRegister;
 const teacherRegister = require('../scripts/register user/teacherRegister').teacherRegister;
 const loginUser = require('../scripts/userLogin');
@@ -14,12 +15,24 @@ indexExpressRouter.get('/aboutus', (req, res) =>{ //Load the about us page
     res.render('./About_Page/aboutus');
 });
 
-indexExpressRouter.get('/contactus', (req, res) =>{ //Load the contact us page
-    res.render('./Contact_Page/contactus');
+indexExpressRouter.get('/contactus', async (req, res) =>{ //Load the contact us page
+    var userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+    if(userDash){
+        res.render('./Contact_Page/contactus', {userDash}); //A user that is logged in is attempting to load this page
+    }
+    else{
+        res.render('./Contact_Page/contactus'); //A user that is not logged in is attempting to load this page
+    }
 });
 
-indexExpressRouter.get('/calculators', (req, res) =>{ //Load the calculator page
-    res.render('./Calculator_Page/calculator');
+indexExpressRouter.get('/calculators', async (req, res) =>{ //Load the calculator page
+    var userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+    if(userDash){
+        res.render('./Calculator_Page/calculator', {userDash}); //A user that is logged in is attempting to load this page
+    }
+    else{
+        res.render('./Calculator_Page/calculator'); //A user that is not logged in is attempting to load this page
+    }
 });
 
 indexExpressRouter.get('/login', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the login page

@@ -4,15 +4,18 @@ const userExpressRouter = express.Router();
 const permissions = require("../scripts/authentication/userPermissions");
 
 userExpressRouter.get('/studentdashboard', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, (req, res) => { //Load the student dashboard
-    res.render('./Student_Pages/studentDashboard');
+    var userDash = '/user/studentdashboard';
+    res.render('./Student_Pages/studentDashboard', {userDash});
 });
 
 userExpressRouter.get('/teacherdashboard', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, (req, res) => { //Load the teacher dashboard
-    res.render('./Teacher_Pages/teacherDashboard');
+    var userDash = '/user/teacherdashboard';
+    res.render('./Teacher_Pages/teacherDashboard', {userDash});
 });
 
 userExpressRouter.get('/admindashboard', permissions.isUserAlreadyLogedIn, permissions.isUserAdmin, (req, res) => { //Load the admin dashboard
-    res.render('./Admin_Pages/adminDashboard');
+    var userDash = '/user/adminDashboard';
+    res.render('./Admin_Pages/adminDashboard', {userDash});
 });
 
 module.exports = userExpressRouter;

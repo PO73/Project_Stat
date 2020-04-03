@@ -1,11 +1,25 @@
+<% if(typeof userDash != 'undefined') { %>
+    <a href=<%= userDash %> class="logo" >
+        <img src="/images/logo.png" alt="logo" width=120px;>
+    </a>
+    <nav>
+        <ul class="nav__links">
+            <li><a href=<%= userDash %>>Dashboard</a></li>
+            <li><a href="/calculators">Calculators</a></li>
+            <li><a href="/user/settings">Settings</a></li>
+            <li><a href="">Log Out</a></li>
+        </ul>
+    </nav>
+<% } else { %>
     <a href="/" class="logo" >
         <img src="/images/logo.png" alt="logo" width=120px;>
     </a>
     <nav>
         <ul class="nav__links">
             <li><a href="/">Home</a></li>
-            <li><a href="aboutus">About</a></li>
-            <li><a href="calculators">Calculators</a></li>
-            <li><a href="login">Log In</a></li>
+            <li><a href="/aboutus">About</a></li>
+            <li><a href="/calculators">Calculators</a></li>
+            <li><a href="/login">Log In</a></li>
         </ul>
     </nav>
+<% } %>

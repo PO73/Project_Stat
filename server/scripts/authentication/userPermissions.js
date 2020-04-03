@@ -158,13 +158,16 @@ async function isUserCurrentlyRegistered (req, res, next) {
                     try {
                         var x = await getUserType(sessionRequest);
                         if(x.localeCompare('student') == 0){
-                            res.render('./Student_Pages/studentDashboard'); //Load the student dashboard
+                            var userDash = '/user/studentdashboard';
+                            res.render('./Student_Pages/studentDashboard', {userDash}); //Load the student dashboard
                         }
                         else if(x.localeCompare('teacher') == 0){
-                            res.render('./Teacher_Pages/teacherDashboard'); //Load the teacher  dashboard
+                            var userDash = '/user/teacherdashboard';
+                            res.render('./Teacher_Pages/teacherDashboard', {userDash}); //Load the teacher  dashboard
                         }
                         else if(x.localeCompare('admin') == 0){
-                            res.render('./Admin_Pages/adminDashboard'); //Load the admin  dashboard
+                            var userDash = '/user/adminDashboard';
+                            res.render('./Admin_Pages/adminDashboard', {userDash}); //Load the admin  dashboard
                         }
                         else{
                             console.log("Unknown user type")
