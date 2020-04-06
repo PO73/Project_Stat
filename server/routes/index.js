@@ -16,7 +16,14 @@ indexExpressRouter.get('/aboutus', (req, res) =>{ //Load the about us page
 });
 
 indexExpressRouter.get('/contactus', async (req, res) =>{ //Load the contact us page
-    var userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+    var userDash = null;
+    try{
+        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+    }
+    catch (error) {
+        console.log(error);
+    }
+    
     if(userDash){
         res.render('./Contact_Page/contactus', {userDash}); //A user that is logged in is attempting to load this page
     }
@@ -26,7 +33,13 @@ indexExpressRouter.get('/contactus', async (req, res) =>{ //Load the contact us 
 });
 
 indexExpressRouter.get('/calculators', async (req, res) =>{ //Load the calculator page
-    var userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+    var userDash = null;
+    try{
+        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+    }
+    catch (error) {
+        console.log(error);
+    }
     if(userDash){
         res.render('./Calculator_Page/calculator', {userDash}); //A user that is logged in is attempting to load this page
     }

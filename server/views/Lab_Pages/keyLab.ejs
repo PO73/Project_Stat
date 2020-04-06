@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%- include('lab_head') %>
+    </head>
+    <body>
+        <header>
+            <%- include('../global_header') %>
+        </header>
+        <div class="containerLab">
+            <div class="containercontainer">
+                <h1>Lesson 1 Lab 1</h1> <button type="print" onclick="printPage()" value="Print" class="labButtons">Print</button>
+            </div>
+        </div>
+        <div id="questionSet">
+            <%- showQuestions %> 
+        </div>
+        <div id="questionSetKey">
+            <%- showKey %> 
+        </div>
+        <script type="text/javascript" src="/js/printPage.js"></script>
+    </body>
+    <footer>
+        <%- include('../global_footer') %>
+    </footer>
+</html>
