@@ -2,7 +2,10 @@ const questionDisplay = require('./questionGeneration').generateQuestions;
 const Lab = require('../../models/Lab').myLab;
 const LabImages = require('../../models/Lab_Images').myLabImages;
 const LabQuestions = require('../../models/Lab_Questions').myLabQuestions;
+const LabQuestionOptions = require('../../models/Lab_Question_Options').myLabQuestionOption;
 
+//The below four functions can be written in a single join query (Will be refactor later)
+/////////////////////////////////////////////////////////////////////////////////////
 function generalLabInfo(labID){
     return new Promise((resolve, reject) => {
         Lab.findAll({where: { ID: labID }})
@@ -33,32 +36,66 @@ function labImages(labID){
     });
 }
 
+function getQuestionOptions(labID, questionNumber){
+    return new Promise((resolve, reject) => {
+        LabQuestionOptions.findAll({where: { LabID: labID, LabquestionID: questionNumber}})
+        .then(QuestionOptions => { //Lab question's options found
+            var options = [];
+            QuestionOptions.forEach((element,i) => {
+                options.push(element.dataValues.Text);
+           });
+           resolve(options);
+        })
+        .catch(error => { //Lab quesion's options not found
+            console.log(error);
+            reject(null);
+        })
+    });
+}
+
 function getQuestions(labID){
     return new Promise((resolve, reject) => {
-        LabQuestions.findAll({where: { LabID: labID }})
+        LabQuestions.findAll({where: { LabID: labID }, order: [['Order', 'ASC']]})
         .then(displayLab => { //Lab questions found
-            console.log(displayLab.length);
-            resolve(labInfo);
+            var questionSet = {};
+            displayLab.forEach(element => {
+                questionSet[element.dataValues.Order] = {};
+                questionSet[element.dataValues.Order].QuestionType = element.dataValues.Questiontype;
+                questionSet[element.dataValues.Order].Question = element.dataValues.Question;
+            });
+            resolve(questionSet);
         })
         .catch(error => { //Lab quesions not found
             reject(null);
         })
     });
 }
+/////////////////////////////////////////////////////////////////////////////////////
+
 
 async function generateStudentLab (labID)  {  
+    var returnThis = [];
     try {
         var defualtLabInfo = await generalLabInfo(labID); //Pull the default lab info for the display
         defualtLabInfo.LabImagePaths = await labImages(labID); //Pull the images that will be used in this lab
-        defualtLabInfo.Questions = await getQuestions(labID);
-
-        console.log(defualtLabInfo);
-
-        //defualtLabInfo["Questions"] = questionDisplay(labID);
+        defualtLabInfo.Questions = await getQuestions(labID); //Pull the question, order, and type
+        for (var questionNumber in defualtLabInfo.Questions) {
+            if (defualtLabInfo.Questions.hasOwnProperty(questionNumber)) {
+                defualtLabInfo.Questions[questionNumber].Options = await getQuestionOptions(labID, questionNumber, defualtLabInfo); //Pull the question options
+            }
+        }
+        var display = questionDisplay(defualtLabInfo.Questions);
+        
+        returnThis.push(defualtLabInfo.Title);
+        returnThis.push(defualtLabInfo.Researchscenario);
+        returnThis.push(defualtLabInfo.Directions);
+        returnThis.push(defualtLabInfo.LabImagePaths);
+        returnThis.push(display);
     } catch (error) {
         console.log(error);
+        returnThis = null;
     }   
-    return null;
+    return returnThis;
 }
 
 async function generateTeacherLab (req, res) {

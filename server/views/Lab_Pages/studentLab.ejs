@@ -9,15 +9,19 @@
         </header>
         <div class="containerLab">
             <div class="containercontainer">
-            <h1>Lesson 1 Lab 1</h1> <button type="print" onclick="printPage()" value="Print" class="labButtons">Print</button>
+            <h1><%= typeof Title != 'undefined' ? Title : 'Lab#' %></h1> <button type="print" onclick="printPage()" value="Print" class="labButtons">Print</button>
         </div>
         <div id="questionSet">
+            <p><b>Research Scenario: </b> <%= typeof researchScenario != 'undefined' ? researchScenario : 'This is where the research scenario should be...' %></p>
+            <p><b>Directions: </b> <%= typeof Direction != 'undefined' ? Direction : 'This is where the directions should be...' %></p>
+            <img src=<%= typeof Image != 'undefined' ? Image : '' %> alt="Italian Trulli">
             <%- showQuestions %> 
         </div>
         <script type="text/javascript" src="/js/testForm.js"></script>
         <script type="text/javascript" src="/js/printPage.js"></script>
     </body>
     <footer>
-        <%- include('../global_footer') %>
+        <button type="back" onclick="location.href='/user/studentdashboard';" value="Back" class="labButtons">Back</button>
+        <button type="submit" onclick="submitTestForm()" value="Submit" class="labButtons">Submit</button> 
     </footer>
 </html>
