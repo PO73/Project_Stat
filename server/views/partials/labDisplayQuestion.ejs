@@ -1,0 +1,26 @@
+<% if(typeof showQuestions != 'undefined') { %>
+    <% showQuestions.forEach(function(question) { %>
+        <%- question %>
+        <% if(typeof questionFeedback != 'undefined') { %>
+            <% questionFeedback.forEach(function(feedback) { %>
+                <% if(feedback[0] == 1) { %>
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Correct!</h4>
+                        <p>You Selected: <%= feedback[1] %></p>
+                        <p>The Correct Answer Was: <%= feedback[2] %></p>
+                        <hr>
+                        <p class="mb-0"><%= feedback[3] %></p>
+                    </div>
+                <% } else { %>
+                    <div class="alert alert-danger" role="alert">
+                        <h4 class="alert-heading">Correct!</h4>
+                        <p>You Selected: <%= feedback[1] %></p>
+                        <p>The Correct Answer Was: <%= feedback[2] %></p>
+                        <hr>
+                        <p class="mb-0"><%= feedback[3] %></p>
+                    </div>
+                <% } %>
+            <% }); %>
+        <% } %>
+    <% }); %>
+<% } %>

@@ -3,19 +3,16 @@ const TorF = require('./questionTypeDisplays/trueOrFalse');
 const MS = require('./questionTypeDisplays/multipleSelection');
 
 function generateQuestions(jsonQuestions) {
-    var result = "";
+    var result = [];
     for (var questionNumber in jsonQuestions) {
         if(jsonQuestions[questionNumber].QuestionType.localeCompare('MC') == 0) {
-            result += MC.displayMC(questionNumber, jsonQuestions[questionNumber].Question, jsonQuestions[questionNumber].Options);
-            //result += "<div class=\"feedBack\"></div>";
+            result.push(MC.displayMC(questionNumber, jsonQuestions[questionNumber].Question, jsonQuestions[questionNumber].Options));
         }
         else if(jsonQuestions[questionNumber].QuestionType.localeCompare('TorF') == 0) {
-            result += TorF.displayTorF(questionNumber, jsonQuestions[questionNumber].Question);
-            //result += "<div class=\"feedBack\"></div>";
+            result.push(TorF.displayTorF(questionNumber, jsonQuestions[questionNumber].Question));
         }
         else if(jsonQuestions[questionNumber].QuestionType.localeCompare('MS') == 0) {
-            result += MS.displayMS(questionNumber, jsonQuestions[questionNumber].Question, jsonQuestions[questionNumber].Options);
-            //result += "<div class=\"feedBack\"></div>";
+            result.push(MS.displayMS(questionNumber, jsonQuestions[questionNumber].Question, jsonQuestions[questionNumber].Options));
         }
         else{
             console.log("Error generating testForm");

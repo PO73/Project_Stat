@@ -20,5 +20,5 @@ function submitTestForm() {
         body: JSON.stringify(userAnswers)
     };
     
-    fetch('/gradeTestForm', options);
+    fetch('/user/gradeTestForm', options);
 }

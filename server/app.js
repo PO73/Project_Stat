@@ -13,6 +13,7 @@ sequelize.authenticate()
 
 //General setup
 app.use(express.urlencoded({ extended: true })); //Not safe, needs a HTTPS connection (JSON or XML would be better)
+app.use(express.json());
 
 //EJS setup
 app.set('view engine', 'ejs');

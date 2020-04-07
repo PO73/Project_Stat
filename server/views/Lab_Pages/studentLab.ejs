@@ -15,7 +15,7 @@
             <p><b>Research Scenario: </b> <%= typeof researchScenario != 'undefined' ? researchScenario : 'This is where the research scenario should be...' %></p>
             <p><b>Directions: </b> <%= typeof Direction != 'undefined' ? Direction : 'This is where the directions should be...' %></p>
             <img src=<%= typeof Image != 'undefined' ? Image : '' %> alt="Italian Trulli">
-            <%- showQuestions %> 
+            <%- include('../partials/labDisplayQuestion') %>
         </div>
         <script type="text/javascript" src="/js/testForm.js"></script>
         <script type="text/javascript" src="/js/printPage.js"></script>
