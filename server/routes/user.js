@@ -54,14 +54,16 @@ userExpressRouter.get('/lab2', permissions.isUserAlreadyLogedIn, permissions.isU
     var displayArray = await labs.generateStudentLab(2);
     
     if(userDash){
-        res.render('./Lab_Pages/studentLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/lab2', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
     }
     else{
-        res.render('./Lab_Pages/studentLab');
+        res.render('./Lab_Pages/lab2');
     }
 });
 
-userExpressRouter.post('/gradeTestForm', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, gradeTest.gradeQuestions)
+userExpressRouter.post('/gradelab2', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, async (req, res) => {
+    await gradeTest.gradeQuestions(2, req.body);
+});
 
 userExpressRouter.get('/lab2_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;

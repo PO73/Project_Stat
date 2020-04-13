@@ -1,41 +1,44 @@
-async function gradeQuestions(req, res) {  
-    const userAnswers = req.body.userSelectedAnswers; //Get the user's answers
-    var numberOfCorrect = 0;
+const LabQuestionOptions = require('../../models/Lab_Question_Options').myLabQuestionOption;
 
-    userAnswers.forEach(element => {
-        var components = element.split("_"); //Split the json object
-        if(components[0].localeCompare('MC') == 0){  
-            if(components[3].localeCompare(correctAnswer) == 0){
-                console.log("Correct");
-                numberOfCorrect += 1;
-            }
-            else{
-                console.log("Incorrect");
-            }
-        }
-        else if(components[0].localeCompare('TF') == 0) {
-            if(components[3].localeCompare(correctAnswer) == 0){
-                console.log("Correct");
-                numberOfCorrect += 1;
-            }
-            else{
-                console.log("Incorrect");
-                numberOfCorrect += 1;
-            }
-        }
-        else if(components[0].localeCompare('MS') == 0) {
-            if(components[3].localeCompare(correctAnswer) == 0){
-                console.log("Correct");
-                numberOfCorrect += 1;
-            }
-            else{
-                console.log("Incorrect");
-            }
-        }
-        else{
-            console.log(components); //Add a custom error 
-        }
+//Pull each question's options to check to see if the user answered the questions correctly
+function getQuestionOptions(labID, questionNumber){
+    return new Promise((resolve, reject) => {
+        LabQuestionOptions.findAll({where: { LabID: labID, LabquestionID: questionNumber, Correctanswer: 1}})
+        .then(QuestionOptions => { //Lab question's options found        
+            var isCorrect = [];
+            QuestionOptions.forEach((element,i) => {
+                isCorrect.push(element.dataValues.Order);
+                isCorrect.push(element.dataValues.Feedback);
+           });
+           resolve(isCorrect);
+        })
+        .catch(error => { //Lab quesion's options not found
+            reject(null);
+        })
     });
+}
+
+async function gradeQuestions(labNumber, userAnswers) {  
+    const checkTheseAnswers = userAnswers.userSelectedAnswers;
+    for (var UQ in checkTheseAnswers) {
+        var components = checkTheseAnswers[UQ].split("_");
+        if(components.length != 4){ //User has edited HTML code before sending request
+            return null; 
+        }
+
+        try {
+            var correctAnswer = await getQuestionOptions(labNumber, components[1]);
+            if(correctAnswer[0] == components[3]){
+                console.log("Correct");
+            } else{
+                console.log("Incorrect");
+            }
+        }
+        catch (error) {
+            console.log("!@");
+            return null;
+        }
+    }
 };
 
 module.exports = {

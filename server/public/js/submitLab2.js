@@ -1,4 +1,4 @@
-function submitTestForm() {
+function submitLab() {
     var elements = document.getElementsByClassName("Inpust Field");
     var userAnswers = {
         userSelectedAnswers:{}
@@ -10,6 +10,7 @@ function submitTestForm() {
             ids.push(elements[i].id);
         }
     }
+
     userAnswers.userSelectedAnswers = ids;
 
     const options = {
@@ -19,6 +20,6 @@ function submitTestForm() {
         },
         body: JSON.stringify(userAnswers)
     };
-    
-    fetch('/user/gradeTestForm', options);
+
+    fetch('/user/gradelab2', options);
 }

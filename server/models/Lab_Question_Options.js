@@ -23,6 +23,14 @@ const myLabQuestionOption = db.define('lab question options', {
     LabID: {
         type: Sequelize.INTEGER,
         allowNull: false,
+    },
+    Feedback: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    Order:{
+        type: Sequelize.INTEGER,
+        allowNull: false,
     } }, {
     db,
     timestamps: false,
