@@ -32,6 +32,7 @@ app.use(sessionStore);
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
 app.use('/user/lab/', require('./routes/lab'));
+app.use('/user/quiz/', require('./routes/quiz'));
 
 const port = process.env.PORT || 3000; //Use port 3000 or port defined in the .env file
 
