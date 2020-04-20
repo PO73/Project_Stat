@@ -5,6 +5,7 @@ const permissions = require("../scripts/authentication/userPermissions");
 const navbar = require('../scripts/menu bar/navBarSetup');
 const labs = require('../scripts/question generation/labGeneration');
 const gradeTest = require('../scripts/question generation/gradeTestForm');
+const checkAchievment = require('../scripts/checkForUnlockReward');
 
 labRouter.get('/lab1', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, async (req, res) => {
     var userDash = null;
@@ -34,10 +35,13 @@ labRouter.post('/gradelab1', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(1);
-    var feedback = await gradeTest.gradeQuestions(1, req.body);
-
+    var results = await gradeTest.gradeLabQuestions(1, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 1, "Labone", req.sessionID);
+    
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab1',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab1',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: feedback[5], Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -92,10 +96,13 @@ labRouter.post('/gradelab2', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(2);
-    var feedback = await gradeTest.gradeQuestions(2, req.body);
+    var results = await gradeTest.gradeLabQuestions(2, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 2, "Labtwo", req.sessionID);
 
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab2',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab2',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -150,10 +157,13 @@ labRouter.post('/gradelab3', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(3);
-    var feedback = await gradeTest.gradeQuestions(3, req.body);
-
+    var results = await gradeTest.gradeLabQuestions(3, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 3, "Labthree", req.sessionID);
+    
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab3',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab3',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: feedback[5], Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -208,10 +218,13 @@ labRouter.post('/gradelab4', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(4);
-    var feedback = await gradeTest.gradeQuestions(4, req.body);
+    var results = await gradeTest.gradeLabQuestions(4, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 4, "Labfour", req.sessionID);
 
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab4',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab4',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: feedback[5], Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -266,10 +279,13 @@ labRouter.post('/gradelab5', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(5);
-    var feedback = await gradeTest.gradeQuestions(5, req.body);
+    var results = await gradeTest.gradeLabQuestions(5, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 5, "Labfive", req.sessionID);
 
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab5',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab5',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: feedback[5], Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -324,10 +340,13 @@ labRouter.post('/gradelab6', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(6);
-    var feedback = await gradeTest.gradeQuestions(6, req.body);
+    var results = await gradeTest.gradeLabQuestions(6, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 6, "Labsix", req.sessionID);
 
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab6',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab6',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: feedback[5], Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -382,10 +401,13 @@ labRouter.post('/gradelab7', async (req, res) => {
         console.log(error);
     }
     var displayArray = await labs.displaySubmittedLab(7);
-    var feedback = await gradeTest.gradeQuestions(7, req.body);
+    var results = await gradeTest.gradeLabQuestions(7, req.body);
+    var feedback = results.feedback;
+    var correct = results.correct;
+    var reward = await checkAchievment.shouldUnlockRewardLab(correct, 7, "Labseven", req.sessionID);
 
     if(userDash && feedback){
-        res.render('./Lab_Pages/lab7',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+        res.render('./Lab_Pages/lab7',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback, Reward: feedback[5], Reward: reward});
     }
     else{
         res.redirect('/user/studentdashboard');
@@ -410,4 +432,5 @@ labRouter.get('/lab7_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         res.render('./Lab_Pages/keyLab');
     }
 });
+
 module.exports = labRouter;

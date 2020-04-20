@@ -1,4 +1,5 @@
 const LabQuestionOptions = require('../../models/Lab_Question_Options').myLabQuestionOption;
+const unlockReward = require('../unlockAchievement');
 
 function getLabQuestions(labID){
     return new Promise((resolve, reject) => {
@@ -21,36 +22,18 @@ function getLabQuestions(labID){
     });
 }
 
-function getFeedback(labID, questionNumber, textFromClient){
-    return new Promise((resolve, reject) => {
-        LabQuestionOptions.findAll({where: { LabID: labID, Order: questionNumber, Text: textFromClient}}) //Pull the answer the user selected from the DB
-        .then(QuestionOptions => { //Questions answers found
-            var isCorrect = [];
-            var info = [];
-            QuestionOptions.forEach(element => {
-                info.push(element.dataValues.Correctanswer);
-                info.push(element.dataValues.Feedback);
-                info.push(element.dataValues.Text);
-                isCorrect.push(info);
-                info = [];
-           });
-           resolve(isCorrect);
-        })
-        .catch(error => { //Questions answers not found
-            reject(null);
-        })
-    });
-}
-
-async function gradeQuestions(labNumber, userAnswers) {  //Should've just pulled the options in all and looped throught them to prevent double call to DB
+async function gradeLabQuestions(labNumber, userAnswers) {  //Should've just pulled the options in all and looped throught them to prevent double call to DB
     var size = 0;
     for (x in userAnswers) { //Check to see if the user answered any of the questions
         size += 1;
     }
 
     var correctAnswers = await getLabQuestions(labNumber);
-
+    
+    const myResultsObject = {};
+    var numCorrect = 0;
     const userFeedback = []; //Holds the feedback that will be given to the user
+    
     if(size == 0){ //The user didn't answer any of the questions
         return null;
     }
@@ -62,6 +45,7 @@ async function gradeQuestions(labNumber, userAnswers) {  //Should've just pulled
                 questionNumber = questionNumber.join("");
                 if(correctAnswers[correct][0] == questionNumber){ //User answer a particular question
                     if(correctAnswers[correct][2].localeCompare(userAnswers[userAttempt]) == 0){ //User answered the question correctly
+                        numCorrect += 1;
                         userFeedback.push([1, userAnswers[userAttempt], userAnswers[userAttempt], correctAnswers[correct][1]]);
                     }
                     else{ //User answered the question incorrectly
@@ -76,9 +60,12 @@ async function gradeQuestions(labNumber, userAnswers) {  //Should've just pulled
             }
         }
     }
-    return userFeedback;
+
+    myResultsObject.feedback = userFeedback;
+    myResultsObject.correct = numCorrect;
+    return myResultsObject;
 };
 
 module.exports = {
-    gradeQuestions
+    gradeLabQuestions
 };

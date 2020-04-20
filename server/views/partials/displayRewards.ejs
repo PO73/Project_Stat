@@ -1,0 +1,11 @@
+<% if(typeof Reward != 'undefined') { %>
+    <% if(Reward[0] == true) { %>
+        <div class="alert alert-success" role="alert">
+            Congratulations! You passed! You got <%= Reward[1] %> correct and you needed <%= Reward[2] %> to pass.
+        </div>
+    <% } else { %>
+        <div class="alert alert-danger" role="alert">
+            Review the lessons for this lab, and try again! You got <%= Reward[1] %> correct and you needed <%= Reward[2] %> to pass.
+        </div>
+    <% } %>
+<% } %>
