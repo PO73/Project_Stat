@@ -3,8 +3,6 @@ const userExpressRouter = express.Router();
 
 const permissions = require("../scripts/authentication/userPermissions");
 const navbar = require('../scripts/menu bar/navBarSetup');
-const labs = require('../scripts/question generation/labGeneration');
-const gradeTest = require('../scripts/question generation/gradeTestForm');
 
 userExpressRouter.get('/studentdashboard', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, (req, res) => { //Load the student dashboard
     var userDash = '/user/studentdashboard';
@@ -40,63 +38,6 @@ userExpressRouter.get('/settingspage', permissions.isUserAlreadyLogedIn, async (
 userExpressRouter.get('/logout', permissions.isUserAlreadyLogedIn, (req, res) => {
     req.session.destroy(); //Log the user out by destorying their session
     res.redirect('/');
-});
-
-userExpressRouter.get('/lab2', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, async (req, res) => {
-    var userDash = null;
-    try{
-        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
-    }
-    catch (error) {
-        console.log(error);
-    }
-
-    var displayArray = await labs.generateStudentLab(2);
-    
-    if(userDash){
-        res.render('./Lab_Pages/lab2', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
-    }
-    else{
-        res.redirect('/');
-    }
-});
-
-userExpressRouter.post('/gradelab2', async (req, res) => {
-    var userDash = null;
-    try{
-        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
-    }
-    catch (error) {
-        console.log(error);
-    }
-    var displayArray = await labs.displaySubmittedLab(2);
-    var feedback = await gradeTest.gradeQuestions(2, req.body);
-
-    if(userDash && feedback){
-        res.render('./Lab_Pages/lab2',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
-    }
-    else{
-        res.redirect('/user/studentdashboard');
-    }
-});
-
-userExpressRouter.get('/lab2_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
-    var userDash = null;
-    try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
-    }
-    catch (error) {
-        console.log(error);
-    }
-
-    displayArray = labs.generateTeacherLab(2); //Generate lab
-    
-    if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
-    }
-    else{
-        res.render('./Lab_Pages/keyLab');
-    }
 });
 
 module.exports = userExpressRouter;

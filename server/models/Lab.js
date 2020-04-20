@@ -19,6 +19,10 @@ const myLab = db.define('lab', {
     Directions: {
         type: Sequelize.STRING,
         allowNull: false,
+    },
+    Passinggrade:{
+        type: Sequelize.INTEGER,
+        allowNull: false
     } }, {
     db,
     timestamps: false,

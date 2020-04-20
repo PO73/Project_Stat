@@ -62,11 +62,9 @@ async function gradeQuestions(labNumber, userAnswers) {  //Should've just pulled
                 questionNumber = questionNumber.join("");
                 if(correctAnswers[correct][0] == questionNumber){ //User answer a particular question
                     if(correctAnswers[correct][2].localeCompare(userAnswers[userAttempt]) == 0){ //User answered the question correctly
-                        console.log("Correct!");
                         userFeedback.push([1, userAnswers[userAttempt], userAnswers[userAttempt], correctAnswers[correct][1]]);
                     }
                     else{ //User answered the question incorrectly
-                        console.log("Incorrect!");
                         userFeedback.push([0, userAnswers[userAttempt], correctAnswers[correct][2], correctAnswers[correct][1]]);
                     }
                     wasAnswered = true;

@@ -13,7 +13,7 @@ sequelize.authenticate()
 
 //General setup
 app.use(express.urlencoded({ extended: true })); //Not safe, needs a HTTPS connection (JSON or XML would be better)
-app.use(express.json());
+//app.use(express.json());
 
 //EJS setup
 app.set('view engine', 'ejs');
@@ -31,6 +31,7 @@ app.use(sessionStore);
 //Possible Routes
 app.use('/', require('./routes/index'));
 app.use('/user', require('./routes/user'));
+app.use('/user/lab/', require('./routes/lab'));
 
 const port = process.env.PORT || 3000; //Use port 3000 or port defined in the .env file
 
