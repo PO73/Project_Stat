@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/sequelize').myConnection;
 
-const myLabImages = db.define('lab image', {
+const myLabImages = db.define('lab images', {
     ID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -19,7 +19,7 @@ const myLabImages = db.define('lab image', {
     db,
     timestamps: false,
     freezeTableName: true,
-    modelName: 'lab image'
+    modelName: 'lab images'
 });
 
 module.exports = {

@@ -1,4 +1,4 @@
-const questionDisplay = require('./questionGeneration').generateQuestions;
+const questionDisplay = require('./questionGeneration');
 const Lab = require('../../models/Lab').myLab;
 const LabImages = require('../../models/Lab_Images').myLabImages;
 const LabQuestions = require('../../models/Lab_Questions').myLabQuestions;
@@ -15,6 +15,7 @@ function generalLabInfo(labID){
             resolve(labInfo);
         })
         .catch(error => { //Lab not found
+            console.log("Lab not found!");
             reject(null);
         })
     });
@@ -31,6 +32,7 @@ function labImages(labID){
             resolve(labInfo);
         })
         .catch(error => { //Lab images not found
+            console.log("Lab imagesnot found!");
             reject(null);
         })
     });
@@ -47,7 +49,7 @@ function getQuestionOptions(labID, questionNumber){
            resolve(options);
         })
         .catch(error => { //Lab quesion's options not found
-            console.log(error);
+            console.log("Lab options not found!");
             reject(null);
         })
     });
@@ -84,7 +86,7 @@ async function generateStudentLab (labID)  {
                 defualtLabInfo.Questions[questionNumber].Options = await getQuestionOptions(labID, questionNumber, defualtLabInfo); //Pull the question options
             }
         }
-        var display = questionDisplay(defualtLabInfo.Questions);
+        var display = questionDisplay.generateQuestions(defualtLabInfo.Questions);
         
         returnThis.push(defualtLabInfo.Title);
         returnThis.push(defualtLabInfo.Researchscenario);
@@ -107,7 +109,30 @@ async function generateTeacherLab (req, res) {
     }
 }
 
+
+async function displaySubmittedLab(labID){
+    var returnThis = [];
+    try {
+        var defualtLabInfo = await generalLabInfo(labID); //Pull the default lab info for the display
+        defualtLabInfo.LabImagePaths = await labImages(labID); //Pull the images that will be used in this lab
+        defualtLabInfo.Questions = await getQuestions(labID); //Pull the question, order, and type
+
+        var display = questionDisplay.showJustQuestion(defualtLabInfo.Questions);
+        
+        returnThis.push(defualtLabInfo.Title);
+        returnThis.push(defualtLabInfo.Researchscenario);
+        returnThis.push(defualtLabInfo.Directions);
+        returnThis.push(defualtLabInfo.LabImagePaths);
+        returnThis.push(display);
+    } catch (error) {
+        console.log(error);
+        returnThis = null;
+    }   
+    return returnThis;
+}
+
 module.exports = {
     generateStudentLab,
-    generateTeacherLab
+    generateTeacherLab,
+    displaySubmittedLab
 };

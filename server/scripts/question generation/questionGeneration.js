@@ -21,6 +21,16 @@ function generateQuestions(jsonQuestions) {
     return result;
 }
 
+function showJustQuestion(jsonQuestions){
+    var result = [];
+    for (var questionNumber in jsonQuestions) {
+        var displayString = "<div id=\"questionDisplay\">" + questionNumber + ". " + jsonQuestions[questionNumber].Question + "<br></div>";
+        result.push(displayString);
+    }
+    return result;
+}
+
 module.exports = {
-    generateQuestions
+    generateQuestions,
+    showJustQuestion
 };

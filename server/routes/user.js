@@ -33,7 +33,7 @@ userExpressRouter.get('/settingspage', permissions.isUserAlreadyLogedIn, async (
         res.render('./Settings_Page/account_Settings', {userDash}); //A user that is logged in is attempting to load this page
     }
     else{
-        res.render('./Settings_Page/account_Settings'); //A user that is not logged in is attempting to load this page
+        res.redirect('/'); //A user that is not logged in is attempting to load this page
     }
 });
 
@@ -57,12 +57,27 @@ userExpressRouter.get('/lab2', permissions.isUserAlreadyLogedIn, permissions.isU
         res.render('./Lab_Pages/lab2', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
     }
     else{
-        res.render('./Lab_Pages/lab2');
+        res.redirect('/');
     }
 });
 
-userExpressRouter.post('/gradelab2', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, async (req, res) => {
-    await gradeTest.gradeQuestions(2, req.body);
+userExpressRouter.post('/gradelab2', async (req, res) => {
+    var userDash = null;
+    try{
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
+    }
+    catch (error) {
+        console.log(error);
+    }
+    var displayArray = await labs.displaySubmittedLab(2);
+    var feedback = await gradeTest.gradeQuestions(2, req.body);
+
+    if(userDash && feedback){
+        res.render('./Lab_Pages/lab2',{userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4], questionFeedback: feedback});
+    }
+    else{
+        res.redirect('/user/studentdashboard');
+    }
 });
 
 userExpressRouter.get('/lab2_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {

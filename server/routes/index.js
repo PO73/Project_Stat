@@ -52,7 +52,7 @@ indexExpressRouter.get('/login', permissions.isUserCurrentlyRegistered, (req, re
     res.render('./Login_Page/login');
 });
 
-indexExpressRouter.post('/userlogin', loginUser.userLogin); //Log in with an existing account
+indexExpressRouter.post('/login', loginUser.userLogin); //Log in with an existing account
 
 indexExpressRouter.get('/passwordreset', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the reset password page
     res.render('./Login_Page/passwordreset');

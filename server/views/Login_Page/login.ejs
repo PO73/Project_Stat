@@ -13,7 +13,7 @@
 <h1 align="center">Login Page</h1>
 
 <div class="login">
-    <form action="/userlogin" method="POST">
+    <form action="/login" method="POST">
         <%- include('../partials/messages') %>
         <label for="emailadd"><b>Email Address</b></label><br>
         <input type="email" placeholder="Enter Email Address" name="emailadd" id="emailadd" value="<%= typeof emailaddress != 'undefined' ? emailaddress : '' %>" required>
