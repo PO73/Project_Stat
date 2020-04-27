@@ -43,7 +43,7 @@ function getQuestionOptions(labID, questionNumber){
         LabQuestionOptions.findAll({where: { LabID: labID, LabquestionID: questionNumber}})
         .then(QuestionOptions => { //Lab question's options found
             var options = [];
-            QuestionOptions.forEach((element,i) => {
+            QuestionOptions.forEach((element) => {
                 options.push(element.dataValues.Text);
            });
            resolve(options);

@@ -1,5 +1,11 @@
-const displayTorF = (questionNumber, question) => {
-    var TorFDisplayString = "<div id=\"questionDisplay\">";
+const displayTorF = (questionNumber, question, imagePath) => {
+    var TorFDisplayString = "";
+    if(imagePath != null){ //If more than one images is needed in later release, change to for loop 
+        TorFDisplayString += "<img src=" + imagePath + ">";
+        TorFDisplayString += "<br>";
+    }
+
+    TorFDisplayString += "<div id=\"questionDisplay\">";
     TorFDisplayString += questionNumber + ". " + question;
     TorFDisplayString += "<br>";
 

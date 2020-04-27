@@ -1,5 +1,11 @@
-const displayMS = (questionNumber, question, optionalAnswers) => {
-    var MSDisplayString = "<div id=\"questionDisplay\">";
+const displayMS = (questionNumber, question, optionalAnswers, imagePath) => {
+    var MSDisplayString = "";
+    if(imagePath != null){ //If more than one images is needed in later release, change to for loop 
+        MSDisplayString += "<img src=" + imagePath + ">";
+        MSDisplayString += "<br>";
+    }
+
+    MSDisplayString += "<div id=\"questionDisplay\">";
     MSDisplayString += questionNumber + ". " + question;
     MSDisplayString += "<br>";
 

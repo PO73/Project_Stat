@@ -13,6 +13,7 @@
             <button type="print" onclick="printPage()" value="Print" class="labButtons">Print</button>
         </div>
         <div id="questionSet">
+            <%- include('../partials/displayRewards') %>
             <p><b>Research Scenario: </b> <%= typeof researchScenario != 'undefined' ? researchScenario : 'This is where the research scenario should be...' %></p>
             <p><b>Directions: </b> <%= typeof Direction != 'undefined' ? Direction : 'This is where the directions should be...' %></p>
             <img src=<%= typeof Image != 'undefined' ? Image : '' %> alt="Italian Trulli">
