@@ -22,6 +22,10 @@ const myQuizQuestionOptions = db.define('quiz question options', {
         type: Sequelize.STRING,
         allowNull: false
     },
+    Feedback: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
     Correct: {
         type: Sequelize.BOOLEAN,
         allowNull: false

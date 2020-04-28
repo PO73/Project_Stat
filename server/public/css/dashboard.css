@@ -58,11 +58,11 @@
   display: inline block;*/
 }
 
-  .button_container {
-	position: absolute;
-  left: 0;
-  right: 0;
-  top: 30%;
+.button_container {
+  position: absolute;
+left: 0;
+right: 0;
+top: 25%;
 }
 
 .btn {
