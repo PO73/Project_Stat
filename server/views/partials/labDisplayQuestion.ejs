@@ -6,15 +6,11 @@
                 <div class="alert alert-success" role="alert">
                     <h4 class="alert-heading">Correct!</h4>
                     <p>You Selected: <%= questionFeedback[i][1] %></p>
-                    <p>The Correct Answer Was: <%= questionFeedback[i][2] %></p>
-                    <hr>
-                    <p class="mb-0"><%= questionFeedback[i][3] %></p>
                 </div>
             <% } else { %>
                 <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">Incorrect!</h4>
                     <p>You Selected: <%= questionFeedback[i][1] %></p>
-                    <p>The Correct Answer Was: <%= questionFeedback[i][2] %></p>
                     <hr>
                     <p class="mb-0"><%= questionFeedback[i][3] %></p>
                 </div>

@@ -140,7 +140,22 @@ button:hover {
 	
 }
 
-
+.center-t {
+  margin: 0;
+  position: absolute;
+  left: 60%;
+  top: 33%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+.center-s {
+  margin: 0;
+  position: absolute;
+  left: 40%;
+  top: 33%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
 
 
 footer1 {

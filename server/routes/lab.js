@@ -36,6 +36,11 @@ labRouter.post('/gradelab1', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(1);
     var results = await gradeTest.gradeLabQuestions(1, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab1'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 1, "Labone", req.sessionID);
@@ -97,6 +102,11 @@ labRouter.post('/gradelab2', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(2);
     var results = await gradeTest.gradeLabQuestions(2, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab2'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 2, "Labtwo", req.sessionID);
@@ -158,6 +168,11 @@ labRouter.post('/gradelab3', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(3);
     var results = await gradeTest.gradeLabQuestions(3, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab3'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 3, "Labthree", req.sessionID);
@@ -219,6 +234,11 @@ labRouter.post('/gradelab4', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(4);
     var results = await gradeTest.gradeLabQuestions(4, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab4'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 4, "Labfour", req.sessionID);
@@ -280,6 +300,11 @@ labRouter.post('/gradelab5', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(5);
     var results = await gradeTest.gradeLabQuestions(5, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab5'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 5, "Labfive", req.sessionID);
@@ -341,6 +366,11 @@ labRouter.post('/gradelab6', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(6);
     var results = await gradeTest.gradeLabQuestions(6, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab6'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 6, "Labsix", req.sessionID);
@@ -402,6 +432,11 @@ labRouter.post('/gradelab7', async (req, res) => {
     }
     var displayArray = await labs.displaySubmittedLab(7);
     var results = await gradeTest.gradeLabQuestions(7, req.body);
+
+    if(results == null){
+        res.redirect('/user/lab/lab7'); //User did not answer any of the questions so redirecte them to the lab page
+    }
+
     var feedback = results.feedback;
     var correct = results.correct;
     var reward = await checkAchievment.shouldUnlockRewardLab(correct, 7, "Labseven", req.sessionID);

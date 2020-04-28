@@ -40,7 +40,7 @@ quizRouter.post('/gradequiz1', permissions.isUserAlreadyLogedIn, permissions.isU
     const displayElements = await quiz.displaySubmittedQuiz(QuizID);
     const results = await gradeQuiz.gradeQuizQuestions(QuizID, req.body);
 
-    if(!results){
+    if(results == null){
         res.redirect('/user/quiz/quiz1'); //User did not answer any of the questions so redirecte them to the quiz page
     }
 
@@ -93,7 +93,7 @@ quizRouter.post('/gradequiz2', permissions.isUserAlreadyLogedIn, permissions.isU
     const displayElements = await quiz.displaySubmittedQuiz(QuizID);
     const results = await gradeQuiz.gradeQuizQuestions(QuizID, req.body);
 
-    if(!results){
+    if(results == null){
         res.redirect('/user/quiz/quiz2'); //User did not answer any of the questions so redirecte them to the quiz page
     }
     
@@ -145,8 +145,8 @@ quizRouter.post('/gradequiz3', permissions.isUserAlreadyLogedIn, permissions.isU
     const QuizID = 3;
     const displayElements = await quiz.displaySubmittedQuiz(QuizID);
     const results = await gradeQuiz.gradeQuizQuestions(QuizID, req.body);
-
-    if(!results){
+    
+    if(results == null){
         res.redirect('/user/quiz/quiz3'); //User did not answer any of the questions so redirecte them to the quiz page
     }
     
