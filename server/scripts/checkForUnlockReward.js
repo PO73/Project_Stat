@@ -33,7 +33,7 @@ function getQuizPassingValue(quizID){
     return new Promise((resolve, reject) => {
         Quiz.findAll({where: { ID: quizID}}) //Pull the min grade for a pas
         .then(thisQuiz => { //Questions answers found
-            var grade = thisQuiz[0].dataValues.Passinggrade;
+            var grade = thisQuiz[0].dataValues.passing_grade;
             resolve(grade);
         })
         .catch(error => { //Questions answers not found

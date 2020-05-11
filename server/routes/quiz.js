@@ -3,9 +3,10 @@ const quizRouter = express.Router();
 
 const permissions = require("../scripts/authentication/userPermissions");
 const navbar = require('../scripts/menu bar/navBarSetup');
+const checkAchievment = require('../scripts/checkForUnlockReward');
+
 const quiz = require('../scripts/question generation/quizGeneration');
 const gradeQuiz = require('../scripts/question generation/gradeTestForm');
-const checkAchievment = require('../scripts/checkForUnlockReward');
 
 quizRouter.get('/quiz1', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, async (req, res) => {
     var userDash = null;
@@ -18,7 +19,7 @@ quizRouter.get('/quiz1', permissions.isUserAlreadyLogedIn, permissions.isUserStu
     const QuizID = 1;
     
     const displayElements = await quiz.generateStudentQuiz(QuizID);
-
+    
     if(userDash){
         res.render('./Quiz_Pages/quiz1', {userDash, Title: displayElements.Title, displayThis: displayElements.Section});
     }

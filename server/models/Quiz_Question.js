@@ -1,41 +1,52 @@
 const Sequelize = require('sequelize');
 const db = require('../config/sequelize').myConnection;
+const myQuizSectionInstruction = require('../models/Quiz_Section_Instructions').myQuizSectionInstructions;
 
 const myQuizQuestion = db.define('quiz question', {
     ID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
-        unique: true,
-        autoIncrement: true
+        unique: true
     },
-    QuizsectionID: {
+    quiz_section_instruction_id: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    QuizsectioninstructionID: {
-        type: Sequelize.INTEGER
-    },
-    Order: {
+    order: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    Text: {
+    text: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    Questiontype: {
+    question_type: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    Imagepath: {
+    image_path: {
         type: Sequelize.STRING
+    },
+    correct_answer: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    option_set_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    quiz_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false
     } }, {
     db,
     timestamps: false,
     freezeTableName: true,
     modelName: 'quiz question'
 });
+
+myQuizQuestion.belongsTo(myQuizSectionInstruction, {foreignKey: 'ID'});
 
 module.exports = {
     myQuizQuestion

@@ -4,11 +4,10 @@ const MS = require('./questionTypeDisplays/multipleSelection');
 
 function generateQuestions(jsonQuestions) {
     var result = [];
-    for (var questionNumber in jsonQuestions) {
-
+    for (var questionNumber in jsonQuestions) { //Loop through all the info pulled from the DB
         if(jsonQuestions[questionNumber].QuestionType.localeCompare('MC') == 0) {
             var order = -1;
-            (jsonQuestions[questionNumber].Order) ? order = jsonQuestions[questionNumber].Order : order = questionNumber;
+            (jsonQuestions[questionNumber].Order) ? order = jsonQuestions[questionNumber].Order : order = questionNumber; //If questions are part of an instruction display the order value not the loop value
 
             if(jsonQuestions[questionNumber].Images != null){
                 result.push(MC.displayMC(order, jsonQuestions[questionNumber].Question, jsonQuestions[questionNumber].Options, jsonQuestions[questionNumber].Images));

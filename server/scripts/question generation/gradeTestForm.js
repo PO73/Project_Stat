@@ -1,5 +1,5 @@
 const LabQuestionOptions = require('../../models/Lab_Question_Options').myLabQuestionOption;
-const QuizQuestionOptions = require('../../models/Quiz_Question_Options').myQuizQuestionOptions;
+const QuizQuestion = require('../../models/Quiz_Question').myQuizQuestion;
 
 function getLabQuestions(labID){
     return new Promise((resolve, reject) => {
@@ -24,19 +24,12 @@ function getLabQuestions(labID){
 
 function getQuizQuestions(quizID){
     return new Promise((resolve, reject) => {
-        QuizQuestionOptions.findAll({where: { QuizID: quizID, Correct: 1}}) //Pull all the correct answers to each question in the quiz
-        .then(QuestionOptions => { //Questions answers found
-            var isCorrect = [];
-            var info = [];
-            QuestionOptions.forEach(element => {
-                info.push(element.dataValues.QuestionID);
-                info.push(element.dataValues.Text);
-                isCorrect.push(info);
-                info = [];
-           });
-           resolve(isCorrect);
+        QuizQuestion.findAll({where: { quiz_id: quizID}, attributes:['correct_answer']}) //Pull all the correct answers to each question in the quiz
+        .then(correctAnswers => { //Questions answers found
+           resolve(correctAnswers);
         })
         .catch(error => { //Questions answers not found
+            console.log(error);
             reject(null);
         })
     });
@@ -92,12 +85,15 @@ async function gradeQuizQuestions(quizNumber, userAnswers){
         size += 1;
     }
 
-    const quizAnswers = await getQuizQuestions(quizNumber);
-
-    const myResultsObject = {};
     var numCorrect = 0;
+    var quizAnswers = [];
+    try {
+        quizAnswers = await getQuizQuestions(quizNumber); //Get the questions and their answers for the quiz
+    } catch (error) {
+        return null;
+    }
+    
     const userFeedback = []; //Holds the feedback that will be given to the user
-
     if(size == 0){ //The user didn't answer any of the questions
         return null;
     }
@@ -107,8 +103,8 @@ async function gradeQuizQuestions(quizNumber, userAnswers){
             for (userAttempt in userAnswers){
                 var questionNumber = userAttempt.match(/\d/g); //Strip all no digits from the string
                 questionNumber = questionNumber.join("");
-                if(quizAnswers[correct][0] == questionNumber){ //User answer a particular question
-                    if(quizAnswers[correct][1].localeCompare(userAnswers[userAttempt]) == 0){ //User answered the question correctly
+                if((parseInt(correct) + 1) == questionNumber){ //User answer a particular question
+                    if(quizAnswers[correct].dataValues.correct_answer.localeCompare(userAnswers[userAttempt]) == 0){ //User answered the question correctly
                         numCorrect += 1;
                         userFeedback.push([1, userAnswers[userAttempt]]);
                     }
@@ -120,11 +116,11 @@ async function gradeQuizQuestions(quizNumber, userAnswers){
                 }
             }
             if(!wasAnswered){ //User didn't answer a particular question the question
-                userFeedback.push([0, "No answer selected"]);
+            userFeedback.push([0, "No answer was selected for this question...", "", ""]);
             }
         }
     }
-    
+    const myResultsObject = {};
     myResultsObject.feedback = userFeedback;
     myResultsObject.correct = numCorrect;
     return myResultsObject;

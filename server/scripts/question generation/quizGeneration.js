@@ -1,121 +1,98 @@
 const Quiz = require('../../models/Quiz').myQuiz;
 const QuizSection = require('../../models/Quiz_Section').myQuizSection;
-const QuizSectionInstructions = require('../../models/Quiz_Section_Instructions').myQuizSectionInstructions;
-const QuizQuestions = require('../../models/Quiz_Question').myQuizQuestion;
-const QuizQuestionOptions = require('../../models/Quiz_Question_Options').myQuizQuestionOptions;
+const QuizSectionInstruction = require('../../models/Quiz_Section_Instructions').myQuizSectionInstructions;
+const QuizQuestion = require('../../models/Quiz_Question').myQuizQuestion;
+const QuizQuestionOptions = require('../../models/Option_Set').myOption;
 const questionDisplay = require('./questionGeneration');
 
-//The below functions can be written in a single join query (Will be refactor later if time permits)
-/////////////////////////////////////////////////////////////////////////////////////
-function generalQuizInfo(quizID){
+//Call as many times as their are questions (each json object contains all info all higher tables)
+async function QuizFormatSetup(quizID){ //A hierarchical database model was not a pro gamer choice for this website
     return new Promise((resolve, reject) => {
-        Quiz.findAll({where: { ID: quizID }})
-        .then(displayQuiz => { //Quiz found
-            var quizTitle = displayQuiz[0].dataValues.Title;
-            resolve(quizTitle);
+        Quiz.findAll({where: {ID: quizID}, attributes: ['title'],
+                        include:[{model: QuizSection, attributes:['text'],
+                            include:[{model: QuizSectionInstruction, attributes:['quiz_section_instruction'],
+                                include:[{model: QuizQuestion, attributes:['text', 'question_type', 'image_path', 'order', 'option_set_id']}]
+                            }]
+                        }]
+                    })
+        .then(quiz => {
+            resolve(quiz);
         })
-        .catch(error => { //Quiz not found
+        .catch(error => {
+            console.log(error);
             reject(null);
         })
     });
 }
 
-function getQuestionOptions(questionID, quizID){
+async function QuizQuestionSetup(optionSet){
     return new Promise((resolve, reject) => {
-        QuizQuestionOptions.findAll({where: { QuestionID: questionID, QuizID: quizID }})
-        .then(QuestionsOptions => { //Get all question options 
-            var question = [];
-            for (x in QuestionsOptions) {
-                question.push(QuestionsOptions[x].dataValues.Text);
+        QuizQuestionOptions.findAll({where: {setID: optionSet}, attributes:['text']})
+        .then(QuestionOptions => {
+            var question = []
+            for (x in QuestionOptions) {
+                question.push(QuestionOptions[x].dataValues.text);
             }
             resolve(question);
         })
-        .catch(error => { //Failed to get all question options
+        .catch(error => {
+            console.log(error);
             reject(null);
         })
     });
 }
-
-function getQuestions(sectionID, instrictionID, showOptions, quizID){
-    return new Promise((resolve, reject) => {
-        QuizQuestions.findAll({where: { QuizsectionID: sectionID, QuizsectioninstructionID: instrictionID }, order: [['Order', 'ASC']]})
-        .then(async (Questions) => { //Get all the questions in a section
-            var jsonQuestion = [];
-            for (x in Questions) {
-                tempJson = {};
-                tempJson.QuestionType = Questions[x].dataValues.Questiontype;
-                tempJson.Question = Questions[x].dataValues.Text;
-                tempJson.Images = Questions[x].dataValues.Imagepath;
-                tempJson.Order = Questions[x].dataValues.Order;
-                if(!showOptions){
-                    tempJson.Options = await getQuestionOptions(Questions[x].dataValues.Order, quizID);
-                }
-                jsonQuestion.push(tempJson);
-            }
-            var display = [];
-            if(!showOptions){
-                display = questionDisplay.generateQuestions(jsonQuestion);
-            }
-            else{
-                display = questionDisplay.showJustQuestion(jsonQuestion);
-            }
-            resolve(display);
-        })
-        .catch(error => { //Failed to get the questions for a section
-            reject(null);
-        })
-    });
-}
-
-function getSectionInstructions(sectionID, showOptions, quizID){
-    return new Promise((resolve, reject) => {
-        QuizSectionInstructions.findAll({where: { QuizsectionID: sectionID }})
-        .then(async (SI) => { //Section instructions found
-            var myInstruct = {};
-            for (x in SI) {
-                myInstruct[SI[x].dataValues.ID] = { };
-                myInstruct[SI[x].dataValues.ID].Title = SI[x].dataValues.Instructiontext;
-                myInstruct[SI[x].dataValues.ID].Questions = await getQuestions(sectionID, SI[x].dataValues.ID, showOptions, quizID);
-            }
-            resolve(myInstruct);
-        })
-        .catch(error => { //Section instructions not found
-            reject(null);
-        })
-    });
-}
-
-async function sectionQuizInfo(quizID, showOptions){
-    return new Promise((resolve, reject) => {
-        QuizSection.findAll({where: { QuizID: quizID }})
-        .then(async (sections) => { //Quiz sections found
-            var mySection = {};
-            for (x in sections) { //Check to see if Sections have multiple subsections/instructions of many different questions
-                try {
-                    mySection[sections[x].dataValues.Section] = await getSectionInstructions(sections[x].dataValues.ID, showOptions, quizID); //Get the section's instructions
-                } catch (error) {
-                    mySection = null;
-                }
-            }
-            resolve(mySection);
-        })
-        .catch(error => { //Quiz sections not found
-            reject(null);
-        })
-    });
-}
-/////////////////////////////////////////////////////////////////////////////////////
 
 async function generateStudentQuiz (quizID)  {  
     const displayQuiz = {};
     try {
-        displayQuiz.Title = await generalQuizInfo(quizID); //Get quiz title
-    } catch (error) {
-        console.log(error);
-    }
+        var quizGeneralInfo  = await QuizFormatSetup(quizID); //Get quiz title, sections, instructions for sections, and question for each instruction
+        if(quizGeneralInfo != null){
+            displayQuiz.Title = quizGeneralInfo[0].dataValues.title;
+            displayQuiz.Section = {}; 
 
-    try {
-        displayQuiz.Section = await sectionQuizInfo(quizID ,false); //This is what happens with a bad SDD and the deadline is approaching
+            const displayThis = [{}];
+            for(var i = 0; i < quizGeneralInfo.length; ++i){ //Populate each section with instructions and questions
+                var sectionTitle = quizGeneralInfo[i]['quiz section'].dataValues.text;
+                var sectionInstruction = quizGeneralInfo[i]['quiz section'].dataValues['quiz section instruction'].dataValues.quiz_section_instruction;
+                
+                if(!displayQuiz.Section.hasOwnProperty(sectionTitle)){ //New section that needs to be added to the JSON object
+                    displayQuiz.Section[sectionTitle] = {};
+                }
+
+                if(!displayQuiz.Section[sectionTitle].hasOwnProperty(sectionInstruction)){ //New section instruction that needs to be added to the JSON object       
+                    displayQuiz.Section[sectionTitle][sectionInstruction] = []; //Create question set
+                    var questionObject = quizGeneralInfo[i]['quiz section'].dataValues['quiz section instruction'].dataValues['quiz question'].dataValues; //Question object from SQL
+                    try {
+                        var questionOptions = await QuizQuestionSetup(questionObject.option_set_id); //Get the options for the question
+                        displayThis[0].QuestionType = questionObject.question_type;
+                        displayThis[0].Images = questionObject.image_path;
+                        displayThis[0].Question = questionObject.text
+                        displayThis[0].Options = questionOptions;
+                        displayThis[0].Order = questionObject.order;
+                        displayQuiz.Section[sectionTitle][sectionInstruction].push(questionDisplay.generateQuestions(displayThis)); //Generate question display
+                    } catch (error) {
+                        console.log("Custom error message");
+                    }
+                }
+                else{ //Display the rest of the questions for an instruction set
+                    var questionObject = quizGeneralInfo[i]['quiz section'].dataValues['quiz section instruction'].dataValues['quiz question'].dataValues; //Question object from SQL
+                    try {
+                        var questionOptions = await QuizQuestionSetup(questionObject.option_set_id); //Get the options for the question
+                        displayThis[0].QuestionType = questionObject.question_type;
+                        displayThis[0].Images = questionObject.image_path;
+                        displayThis[0].Question = questionObject.text
+                        displayThis[0].Options = questionOptions;
+                        displayThis[0].Order = questionObject.order;
+                        displayQuiz.Section[sectionTitle][sectionInstruction].push(questionDisplay.generateQuestions(displayThis)); //Generate question display
+                    } catch (error) {
+                        console.log("Custom error message");
+                    }
+                }
+            }
+                
+        }else{
+            console.log("Custom error message");
+        }
     } catch (error) {
         console.log(error);
     }
@@ -125,13 +102,46 @@ async function generateStudentQuiz (quizID)  {
 async function displaySubmittedQuiz(quizID){
     const displayQuiz = {};
     try {
-        displayQuiz.Title = await generalQuizInfo(quizID); //Get quiz title
-    } catch (error) {
-        console.log(error);
-    }
+        var quizGeneralInfo  = await QuizFormatSetup(quizID); //Get quiz title, sections, instructions for sections, and question for each instruction
+        if(quizGeneralInfo != null){
+            displayQuiz.Title = quizGeneralInfo[0].dataValues.title;
+            displayQuiz.Section = {}; 
 
-    try {
-        displayQuiz.Section = await sectionQuizInfo(quizID, true); //This is what happens with a bad SDD and the deadline is approaching
+            const displayThis = [{}];
+            for(var i = 0; i < quizGeneralInfo.length; ++i){ //Populate each section with instructions and questions
+                var sectionTitle = quizGeneralInfo[i]['quiz section'].dataValues.text;
+                var sectionInstruction = quizGeneralInfo[i]['quiz section'].dataValues['quiz section instruction'].dataValues.quiz_section_instruction;
+                
+                if(!displayQuiz.Section.hasOwnProperty(sectionTitle)){ //New section that needs to be added to the JSON object
+                    displayQuiz.Section[sectionTitle] = {};
+                }
+
+                if(!displayQuiz.Section[sectionTitle].hasOwnProperty(sectionInstruction)){ //New section instruction that needs to be added to the JSON object       
+                    displayQuiz.Section[sectionTitle][sectionInstruction] = []; //Create question set
+                    var questionObject = quizGeneralInfo[i]['quiz section'].dataValues['quiz section instruction'].dataValues['quiz question'].dataValues; //Question object from SQL
+                    try {
+                        displayThis[0].Question = questionObject.text
+                        displayThis[0].Order = questionObject.order;
+                        displayQuiz.Section[sectionTitle][sectionInstruction].push(questionDisplay.showJustQuestion(displayThis)); //Generate question display
+                    } catch (error) {
+                        console.log("Custom error message");
+                    }
+                }
+                else{ //Display the rest of the questions for an instruction set
+                    var questionObject = quizGeneralInfo[i]['quiz section'].dataValues['quiz section instruction'].dataValues['quiz question'].dataValues; //Question object from SQL
+                    try {
+                        displayThis[0].Question = questionObject.text
+                        displayThis[0].Order = questionObject.order;
+                        displayQuiz.Section[sectionTitle][sectionInstruction].push(questionDisplay.showJustQuestion(displayThis)); //Generate question display
+                    } catch (error) {
+                        console.log("Custom error message");
+                    }
+                }
+            }
+                
+        }else{
+            console.log("Custom error message");
+        }
     } catch (error) {
         console.log(error);
     }

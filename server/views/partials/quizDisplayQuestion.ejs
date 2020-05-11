@@ -1,11 +1,11 @@
 <% if(typeof displayThis != 'undefined') { %>
     <% var count = 0; %>
     <% for (var P_key in displayThis) { %>
-        <h3><%= P_key %></h3> 
+        <h2><%= P_key %></h2> 
         <% for (var key in displayThis[P_key]) { %>
-            <h5><%= displayThis[P_key][key].Title %></h5>
-            <% for (var question in displayThis[P_key][key].Questions) { %>
-                <%- displayThis[P_key][key].Questions[question] %>
+            <h4><%= key %></h4> 
+            <% for (var question in displayThis[P_key][key]) { %>
+                <p><%- displayThis[P_key][key][question] %></p> 
                 <% if(typeof questionFeedback != 'undefined') { %>
                     <% if(questionFeedback[count][0] == 1) { %>
                         <div class="alert alert-success" role="alert">

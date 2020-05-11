@@ -7,8 +7,8 @@ const studentRegister = require('../scripts/register user/studentRegister').stud
 const teacherRegister = require('../scripts/register user/teacherRegister').teacherRegister;
 const loginUser = require('../scripts/userLogin');
 
-indexExpressRouter.get('/', permissions.isUserCurrentlyRegistered, (req, res) =>{ //Load the home page
-    res.render('./Home_Page/home');
+indexExpressRouter.get('/', permissions.isUserCurrentlyRegistered, async (req, res) =>{ //Load the home page
+    res.render('./Home_Page/home')
 });
 
 indexExpressRouter.get('/aboutus', (req, res) =>{ //Load the about us page
