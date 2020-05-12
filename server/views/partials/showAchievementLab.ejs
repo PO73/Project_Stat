@@ -1,0 +1,19 @@
+<% if(typeof labAwards != 'undefined') { %>
+    <% for (var award in labAwards) { %>
+        <% if(labAwards[award] == true) { %>
+            <div class="unitlab">
+                <h2 align="center"><br>Lab <%- parseInt(award) + 1 %> Unlocked</h2><br>
+                <h3 align="center">Congratulations! You have</h3>
+                <h3 align="center">Completed Lab <%- parseInt(award) + 1 %></h3><br>
+                <img class="logo" src="/images/badge1.png" alt="Unlock" width=100px;>
+            </div>
+        <% } else { %>
+            <div class="unitlab">
+                <h2 align="center"><br>Lab <%- parseInt(award) + 1 %> Locked</h2><br>
+                <h3 align="center">You have not</h3>
+                <h3 align="center">Completed Lab <%- parseInt(award) + 1 %> </h3><br>
+                <img class="logo" src="/images/locked.png" alt="Lock" width=100px;>
+            </div>
+        <% } %>
+    <% } %>
+<% } %>

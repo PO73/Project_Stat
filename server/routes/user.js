@@ -4,6 +4,7 @@ const userExpressRouter = express.Router();
 const permissions = require("../scripts/authentication/userPermissions");
 const navbar = require('../scripts/menu bar/navBarSetup');
 const settings = require('../scripts/userUpdate');
+const achievement = require('../scripts/checkForUnlockReward');
 
 userExpressRouter.get('/studentdashboard', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, (req, res) => { //Load the student dashboard
     var userDash = '/user/studentdashboard';
@@ -124,6 +125,19 @@ userExpressRouter.post('/updateUserPassword', permissions.isUserAlreadyLogedIn, 
     }else{ //User is not logged in
         res.redirect('/'); //A user that is not logged in is attempting to load this page
     }
+});
+
+userExpressRouter.get('/achievements', permissions.isUserAlreadyLogedIn, permissions.isUserStudent,async (req, res) => { //Load the student dashboard
+    var userDash = '/user/studentdashboard';
+    try {
+        var results = await achievement.getAchievements(req.sessionID);
+        console.log(results);
+        res.render('./Achievement_Page/achievement', {userDash, quizAwards: results[1], labAwards: results[0], lessonAwards: results[2]});
+    } catch (error) {
+        console.log(error); //Replace with custom error page
+        res.render('/');
+    }
+    
 });
 
 userExpressRouter.get('/logout', permissions.isUserAlreadyLogedIn, (req, res) => {

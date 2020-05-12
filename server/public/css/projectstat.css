@@ -219,3 +219,73 @@ background: #23798e;
 {
   background: #328fa5;   
 }
+
+/* Achievements Page CSS Style Update */
+.unit1rewards{
+	width: 900px;
+    height: 650px;  
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px grey;
+	margin:auto;
+}
+
+.unit2rewards{
+	width: 1300px;
+    height: 650px;  
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px grey;
+	margin:auto;
+}
+
+.unit3rewards{
+	width: 1300px;
+    height: 950px;  
+    background-color: white;
+    box-shadow: 5px 5px 5px 5px grey;
+	margin:auto;
+}
+
+/* Achievements Page CSS Style Update */
+.unitmod{
+	width: 350px;
+    height: 250px;  
+    border-radius: 5px;
+    background-color: #E8E8E8;
+    box-shadow: 5px 5px 5px 5px grey;
+	float:left;
+	margin-top: 50px;
+	border:black;
+	margin-left:75px;
+}
+
+
+/* Achievements Page CSS Style Update */
+.unitlab{
+	width: 350px;
+    height: 250px;  
+    border-radius: 5px;
+    background-color: #E8E8E8;
+    box-shadow: 5px 5px 5px 5px grey;
+	float:left;
+	margin-top:50px;
+	margin-left: 50px;
+}
+
+
+
+/* Achievements Page CSS Style Update */
+.unitquiz{
+	width: 350px;
+    height: 250px;  
+    border-radius: 5px;
+    background-color: #dddddd;
+    box-shadow: 5px 5px 5px 5px grey;
+	float:left;
+	margin-top:50px;
+	margin-left:75px;
+}
+
+/* Achievements Page CSS Style Update */
+.logo{
+	margin-left: 125px;
+}
