@@ -42,6 +42,18 @@ function QuizQuestionSetup(optionSet){
     });
 }
 
+function QuizAnswers(quizID){
+    return new Promise((resolve, reject) => {
+        QuizQuestion.findAll({where: { quiz_id: quizID }, attributes: ['correct_answer']})
+        .then(info => { //Found quiz
+            resolve(info);
+        })
+        .catch(error => { //Didn't find quiz
+            reject(null);
+        })
+    });
+}
+
 async function generateStudentQuiz (quizID)  {  
     const displayQuiz = {};
     try {
@@ -148,7 +160,21 @@ async function displaySubmittedQuiz(quizID){
     return displayQuiz;
 }
 
+async function generateTeacherQuiz (quizID){
+    var displayKey = {};
+    displayKey.StudentView = await generateStudentQuiz(quizID);
+    displayKey.TeacherQuestions = await displaySubmittedQuiz(quizID);
+    var quizInfo = await QuizAnswers(quizID);
+    var info = [];
+    for (var i = 0; i<quizInfo.length; ++i){
+        info.push(quizInfo[i].dataValues.correct_answer);
+    }
+    displayKey.TeacherQuestionKey = info;
+    return displayKey;
+}
+
 module.exports = {
     generateStudentQuiz,
-    displaySubmittedQuiz
+    displaySubmittedQuiz,
+    generateTeacherQuiz
 }

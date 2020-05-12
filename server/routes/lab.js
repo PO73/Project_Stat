@@ -62,7 +62,7 @@ labRouter.get('/lab1_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(1); //Generate lab
+    var displayArray = await labs.generateTeacherLab(1); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
@@ -130,7 +130,7 @@ labRouter.get('/lab2_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(2); //Generate lab
+    var displayArray = await labs.generateTeacherLab(2); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
@@ -198,7 +198,7 @@ labRouter.get('/lab3_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(3); //Generate lab
+    var displayArray = await labs.generateTeacherLab(3); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
@@ -266,7 +266,7 @@ labRouter.get('/lab4_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(4); //Generate lab
+    var displayArray = await labs.generateTeacherLab(4); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
@@ -334,7 +334,7 @@ labRouter.get('/lab5_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(5); //Generate lab
+    var displayArray = await labs.generateTeacherLab(5); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
@@ -402,7 +402,7 @@ labRouter.get('/lab6_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(6); //Generate lab
+    var displayArray = await labs.generateTeacherLab(6); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
@@ -470,7 +470,7 @@ labRouter.get('/lab7_key', permissions.isUserAlreadyLogedIn, permissions.isUserT
         console.log(error);
     }
 
-    displayArray = await labs.generateTeacherLab(7); //Generate lab
+    var displayArray = await labs.generateTeacherLab(7); //Generate lab
 
     if(userDash){
         res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 

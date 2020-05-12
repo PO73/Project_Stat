@@ -58,7 +58,25 @@ quizRouter.post('/gradequiz1', permissions.isUserAlreadyLogedIn, permissions.isU
 });
 
 quizRouter.get('/quiz1_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
+    var userDash = null;
+    try{
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
+    }
+    catch (error) {
+        console.log(error);
+    }
+    const QuizID = 1;
 
+    const displayElements = await quiz.generateTeacherQuiz(QuizID);
+    console.log(displayElements);
+
+    if(userDash){
+        res.render('./Quiz_Pages/keyQuiz', {userDash, Title: displayElements.StudentView.Title, displayThis: displayElements.StudentView.Section, 
+            answerKey: displayElements.TeacherQuestions.Section, keyAnswers: displayElements.TeacherQuestionKey});
+    }
+    else{
+        res.redirect('/');
+    }
 });
 
 quizRouter.get('/quiz2', permissions.isUserAlreadyLogedIn, permissions.isUserStudent, async (req, res) => {

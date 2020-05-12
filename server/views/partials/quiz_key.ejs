@@ -1,0 +1,15 @@
+<% if(typeof answerKey != 'undefined') { %>
+    <% var count = 0; %>
+    <% for (var P_key in answerKey) { %>
+        <h2><%= P_key %></h2> 
+        <% for (var key in answerKey[P_key]) { %>
+            <h4><%= key %></h4> 
+            <% for (var question in answerKey[P_key][key]) { %>
+                <p><%- answerKey[P_key][key][question] %>
+                <b>The correct answer is:</b> <%- keyAnswers[count] %><br>
+                <b>No hints will be give if a student gets the wrong answer</b></p>
+                <% count += 1; %>
+            <% } %>
+        <% } %>
+    <% } %>
+<% } %>
