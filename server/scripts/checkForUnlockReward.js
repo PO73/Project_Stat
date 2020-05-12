@@ -20,7 +20,7 @@ function getLabPassingValue(labID){
     return new Promise((resolve, reject) => {
         Lab.findAll({where: { ID: labID}}) //Pull the min grade for a pas
         .then(thisLab => { //Questions answers found
-            var grade = thisLab[0].dataValues.Passinggrade;
+            var grade = thisLab[0].dataValues.passing_grade;
             resolve(grade);
         })
         .catch(error => { //Questions answers not found

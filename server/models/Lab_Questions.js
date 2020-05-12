@@ -1,34 +1,49 @@
 const Sequelize = require('sequelize');
 const db = require('../config/sequelize').myConnection;
+const Lab = require('../models/Lab').myLab;
 
-const myLabQuestions = db.define('lab questions', {
+const myLabQuestions = db.define('lab question', {
     ID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
         unique: true,
     },
-    Question: {
+    text: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    Order: {
+    order: {
         type: Sequelize.INTEGER,
         allowNull: false
     },
-    Questiontype: {
+    question_type: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    LabID: {
+    lab_id: {
         type: Sequelize.INTEGER,
         allowNull: false
-    } }, {
+    },
+    feedback: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    option_set: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    correct_answer: {
+        type: Sequelize.STRING,
+        allowNull: false
+    }, }, {
     db,
     timestamps: false,
     freezeTableName: true,
-    modelName: 'lab questions'
+    modelName: 'lab question'
 });
+
+myLabQuestions.belongsTo(Lab, {foreignKey : 'ID'});
 
 module.exports = {
     myLabQuestions

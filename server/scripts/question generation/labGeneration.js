@@ -1,103 +1,69 @@
 const questionDisplay = require('./questionGeneration');
 const Lab = require('../../models/Lab').myLab;
-const LabImages = require('../../models/Lab_Images').myLabImages;
-const LabQuestions = require('../../models/Lab_Questions').myLabQuestions;
-const LabQuestionOptions = require('../../models/Lab_Question_Options').myLabQuestionOption;
+const LabQuestion = require('../../models/Lab_Questions').myLabQuestions;
+const LabQuestionOption = require('../../models/Option_Set').myOption;
 
-//The below four functions can be written in a single join query (Will be refactor later)
-/////////////////////////////////////////////////////////////////////////////////////
-function generalLabInfo(labID){
+function generateLab(labID){
     return new Promise((resolve, reject) => {
-        Lab.findAll({where: { ID: labID }})
-        .then(displayLab => { //Lab found
-            var labInfo = JSON.stringify(displayLab[0].dataValues); //Return lab info in a json object
-            labInfo = JSON.parse(labInfo);
-            resolve(labInfo);
+        Lab.findAll({where: { ID: labID }, attributes: ['title', 'research_scenario', 'directions', 'image_path'],
+                        include:[{model: LabQuestion, attributes:['text', 'order', 'question_type', 'option_set']}]
+                    })
+        .then(info => { //Found Lab
+            resolve(info);
         })
-        .catch(error => { //Lab not found
-            console.log("Lab not found!");
+        .catch(error => { //Didn't find lab
             reject(null);
         })
     });
 }
 
-function labImages(labID){
+function LabQuestionSetup(optionSet){
     return new Promise((resolve, reject) => {
-        LabImages.findAll({where: { LabID: labID }})
-        .then(displayLab => { //Lab images found
-            var labInfo = [];
-            displayLab.forEach(element => {
-                labInfo.push(element.dataValues.Imagepath);
-            });
-            resolve(labInfo);
+        LabQuestionOption.findAll({where: {setID: optionSet}, attributes:['text']})
+        .then(LabOptions => {
+            var question = []
+            for (x in LabOptions) {
+                question.push(LabOptions[x].dataValues.text);
+            }
+            resolve(question);
         })
-        .catch(error => { //Lab images not found
-            console.log("Lab imagesnot found!");
+        .catch(error => {
             reject(null);
         })
     });
 }
-
-function getQuestionOptions(labID, questionNumber){
-    return new Promise((resolve, reject) => {
-        LabQuestionOptions.findAll({where: { LabID: labID, LabquestionID: questionNumber}})
-        .then(QuestionOptions => { //Lab question's options found
-            var options = [];
-            QuestionOptions.forEach((element) => {
-                options.push(element.dataValues.Text);
-           });
-           resolve(options);
-        })
-        .catch(error => { //Lab quesion's options not found
-            console.log("Lab options not found!");
-            reject(null);
-        })
-    });
-}
-
-function getQuestions(labID){
-    return new Promise((resolve, reject) => {
-        LabQuestions.findAll({where: { LabID: labID }, order: [['Order', 'ASC']]})
-        .then(displayLab => { //Lab questions found
-            var questionSet = {};
-            displayLab.forEach(element => {
-                questionSet[element.dataValues.Order] = {};
-                questionSet[element.dataValues.Order].QuestionType = element.dataValues.Questiontype;
-                questionSet[element.dataValues.Order].Question = element.dataValues.Question;
-            });
-            resolve(questionSet);
-        })
-        .catch(error => { //Lab quesions not found
-            reject(null);
-        })
-    });
-}
-/////////////////////////////////////////////////////////////////////////////////////
-
 
 async function generateStudentLab (labID)  {  
     var returnThis = [];
     try {
-        var defualtLabInfo = await generalLabInfo(labID); //Pull the default lab info for the display
-        defualtLabInfo.LabImagePaths = await labImages(labID); //Pull the images that will be used in this lab
-        defualtLabInfo.Questions = await getQuestions(labID); //Pull the question, order, and type
-        for (var questionNumber in defualtLabInfo.Questions) {
-            if (defualtLabInfo.Questions.hasOwnProperty(questionNumber)) {
-                defualtLabInfo.Questions[questionNumber].Options = await getQuestionOptions(labID, questionNumber, defualtLabInfo); //Pull the question options
+        var labInfo = await generateLab(labID);
+        labInfo = labInfo[0].dataValues;
+        var questions = labInfo['lab questions'];
+
+        returnThis.push(labInfo.title);
+        returnThis.push(labInfo.research_scenario);
+        returnThis.push(labInfo.directions);
+        returnThis.push(labInfo.image_path);
+        var questionSet = [];
+        for(var i = 0; i < questions.length; ++i){
+            var questionObject = questions[i].dataValues;
+            var myJson = {};
+            myJson.QuestionType = questionObject.question_type;
+            myJson.Question = questionObject.text
+            myJson.Order = questionObject.order;
+            try {
+                myJson.Options = await LabQuestionSetup(questionObject.option_set);
+            } catch (error) {
+                return null;
             }
+            questionSet.push(myJson);
         }
-        var display = questionDisplay.generateQuestions(defualtLabInfo.Questions);
-        
-        returnThis.push(defualtLabInfo.Title);
-        returnThis.push(defualtLabInfo.Researchscenario);
-        returnThis.push(defualtLabInfo.Directions);
-        returnThis.push(defualtLabInfo.LabImagePaths);
-        returnThis.push(display);
+        var displayThis = questionDisplay.generateQuestions(questionSet);
+        returnThis.push(displayThis);
+        return returnThis;
     } catch (error) {
-        console.log(error);
-        returnThis = null;
-    }   
-    return returnThis;
+        return null;
+    }
 }
 
 async function generateTeacherLab (req, res) {
@@ -111,6 +77,32 @@ async function generateTeacherLab (req, res) {
 
 
 async function displaySubmittedLab(labID){
+    var returnThis = [];
+    try {
+        var labInfo = await generateLab(labID);
+        labInfo = labInfo[0].dataValues;
+        var questions = labInfo['lab questions'];
+
+        returnThis.push(labInfo.title);
+        returnThis.push(labInfo.research_scenario);
+        returnThis.push(labInfo.directions);
+        returnThis.push(labInfo.image_path);
+        var questionSet = [];
+        for(var i = 0; i < questions.length; ++i){
+            var questionObject = questions[i].dataValues;
+            var myJson = {};
+            myJson.QuestionType = questionObject.question_type;
+            myJson.Question = questionObject.text
+            myJson.Order = questionObject.order;
+            questionSet.push(myJson);
+        }
+        var displayThis = questionDisplay.showJustQuestion(questionSet);
+        returnThis.push(displayThis);
+        return returnThis;
+    } catch (error) {
+        return null;
+    }
+
     var returnThis = [];
     try {
         var defualtLabInfo = await generalLabInfo(labID); //Pull the default lab info for the display

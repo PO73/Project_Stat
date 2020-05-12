@@ -25,7 +25,7 @@ async function QuizFormatSetup(quizID){ //A hierarchical database model was not 
     });
 }
 
-async function QuizQuestionSetup(optionSet){
+function QuizQuestionSetup(optionSet){
     return new Promise((resolve, reject) => {
         QuizQuestionOptions.findAll({where: {setID: optionSet}, attributes:['text']})
         .then(QuestionOptions => {
