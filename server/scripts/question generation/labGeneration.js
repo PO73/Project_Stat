@@ -33,6 +33,18 @@ function LabQuestionSetup(optionSet){
     });
 }
 
+function LabAnswers(labID){
+    return new Promise((resolve, reject) => {
+        LabQuestion.findAll({where: { lab_id: labID }, attributes: ['correct_answer', 'feedback']})
+        .then(info => { //Found Lab
+            resolve(info);
+        })
+        .catch(error => { //Didn't find lab
+            reject(null);
+        })
+    });
+}
+
 async function generateStudentLab (labID)  {  
     var returnThis = [];
     try {
@@ -49,7 +61,7 @@ async function generateStudentLab (labID)  {
             var questionObject = questions[i].dataValues;
             var myJson = {};
             myJson.QuestionType = questionObject.question_type;
-            myJson.Question = questionObject.text
+            myJson.Question = questionObject.text;
             myJson.Order = questionObject.order;
             try {
                 myJson.Options = await LabQuestionSetup(questionObject.option_set);
@@ -66,13 +78,20 @@ async function generateStudentLab (labID)  {
     }
 }
 
-async function generateTeacherLab (req, res) {
-    try {
-        var defualtLabInfo = await generalLabInfo(labID); //Pull the default lab info for the display
-        console.log(defualtLabInfo);
-    } catch (error) {
-        console.log(error);
+async function generateTeacherLab (labID) {
+    var displayKey = {};
+    displayKey.StudentView = await generateStudentLab(labID);
+    displayKey.TeacherQuestions = await displaySubmittedLab(labID);
+    var labInfo = await LabAnswers(labID);
+    var info = [];
+    for (var i = 0; i<labInfo.length; ++i){
+        var temp = [2];
+        temp[0] = (labInfo[i].dataValues.correct_answer);
+        temp[1] = (labInfo[i].dataValues.feedback);
+        info.push(temp);
     }
+    displayKey.TeacherQuestionKey = info;
+    return displayKey;
 }
 
 
@@ -102,25 +121,6 @@ async function displaySubmittedLab(labID){
     } catch (error) {
         return null;
     }
-
-    var returnThis = [];
-    try {
-        var defualtLabInfo = await generalLabInfo(labID); //Pull the default lab info for the display
-        defualtLabInfo.LabImagePaths = await labImages(labID); //Pull the images that will be used in this lab
-        defualtLabInfo.Questions = await getQuestions(labID); //Pull the question, order, and type
-
-        var display = questionDisplay.showJustQuestion(defualtLabInfo.Questions);
-        
-        returnThis.push(defualtLabInfo.Title);
-        returnThis.push(defualtLabInfo.Researchscenario);
-        returnThis.push(defualtLabInfo.Directions);
-        returnThis.push(defualtLabInfo.LabImagePaths);
-        returnThis.push(display);
-    } catch (error) {
-        console.log(error);
-        returnThis = null;
-    }   
-    return returnThis;
 }
 
 module.exports = {

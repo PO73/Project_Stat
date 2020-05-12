@@ -199,7 +199,7 @@ function checkPasswordSyntax(newPassword, confirmPassword){
 }
 
 function checkInputSyntax(myJson){
-    var sc = new RegExp(/[!#$%^&*\\/(),?":\'{}\s=`~+|<>]/);
+    var sc = new RegExp(/[!#$%^&*\\/(),?":\'{}=`~+|<>]/);
     var pr = new RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/);
     
     for (var key in myJson) {

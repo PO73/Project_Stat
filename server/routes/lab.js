@@ -56,19 +56,21 @@ labRouter.post('/gradelab1', async (req, res) => {
 labRouter.get('/lab1_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(1); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(1); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 
@@ -122,19 +124,21 @@ labRouter.post('/gradelab2', async (req, res) => {
 labRouter.get('/lab2_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(2); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(2); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 
@@ -188,19 +192,21 @@ labRouter.post('/gradelab3', async (req, res) => {
 labRouter.get('/lab3_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(3); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(3); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 
@@ -254,19 +260,21 @@ labRouter.post('/gradelab4', async (req, res) => {
 labRouter.get('/lab4_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(4); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(4); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 
@@ -320,19 +328,21 @@ labRouter.post('/gradelab5', async (req, res) => {
 labRouter.get('/lab5_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(5); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(5); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 
@@ -386,19 +396,21 @@ labRouter.post('/gradelab6', async (req, res) => {
 labRouter.get('/lab6_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(6); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(6); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 
@@ -452,19 +464,21 @@ labRouter.post('/gradelab7', async (req, res) => {
 labRouter.get('/lab7_key', permissions.isUserAlreadyLogedIn, permissions.isUserTeacher, async (req, res) => {
     var userDash = null;
     try{
-        userDash = await navbar.isUserActive(req.sessionID); //Determine which menu bar should be loaded
+        userDash = await navbar.setNavBar(req.sessionID); //Determine which menu bar should be loaded
     }
     catch (error) {
         console.log(error);
     }
 
-    displayArray = labs.generateTeacherLab(7); //Generate lab
-    
+    displayArray = await labs.generateTeacherLab(7); //Generate lab
+
     if(userDash){
-        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray[0], researchScenario: displayArray[1], Direction: displayArray[2], Image: displayArray[3], showQuestions: displayArray[4] });
+        res.render('./Lab_Pages/keyLab', {userDash, Title: displayArray.StudentView[0], researchScenario: displayArray.StudentView[1], 
+            Direction: displayArray.StudentView[2], Image: displayArray.StudentView[3], showQuestions: displayArray.StudentView[4],
+            keyQuestions: displayArray.TeacherQuestions[4], keyQuestionsResults: displayArray.TeacherQuestionKey});
     }
     else{
-        res.render('./Lab_Pages/keyLab');
+        res.render('/');
     }
 });
 

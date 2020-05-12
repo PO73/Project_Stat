@@ -3,7 +3,7 @@ const User = require('../../models/User').myUser;
 
 //Basic input check to see if user has completed the form correctly
 function requiredInputCheck(firstname, lastname, emailaddress, pswd, confirmpassword, birth, state, input) {
-    var sc = new RegExp(/[!#$%^&*\\/(),?":\'{}\s=`~+|<>]/);
+    var sc = new RegExp(/[!#$%^&*\\/(),?":\'{}=`~+|<>]/);
     var pr = new RegExp(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/);
     var errorMessages = [];
 

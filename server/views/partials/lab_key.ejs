@@ -1,0 +1,7 @@
+<% if(typeof keyQuestions != 'undefined') { %>
+    <% keyQuestions.forEach(function(question,i) { %>
+        <%- question %>
+        <p><b>The correct answer is:</b> <%- keyQuestionsResults[i][0] %><br>
+        <b>Help hint for incorrect answers:</b> <%- keyQuestionsResults[i][1] %> </p>
+    <% }); %>
+<% } %>

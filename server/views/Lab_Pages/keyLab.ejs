@@ -9,18 +9,27 @@
         </header>
         <div class="containerLab">
             <div class="containercontainer">
-                <h1>Lesson 1 Lab 1</h1> <button type="print" onclick="printPage()" value="Print" class="labButtons">Print</button>
-            </div>
+            <h1><%= typeof Title != 'undefined' ? Title : 'Lab#' %></h1>
+            <button type="print" onclick="printPage()" value="Print" class="labButtons">Print</button>
         </div>
         <div id="questionSet">
-            <%- showQuestions %> 
+            <h1>Student View:</h1>
+            <p><b>Research Scenario: </b> <%= typeof researchScenario != 'undefined' ? researchScenario : 'This is where the research scenario should be...' %></p>
+            <p><b>Directions: </b> <%= typeof Direction != 'undefined' ? Direction : 'This is where the directions should be...' %></p>
+            <img src=<%= typeof Image != 'undefined' ? Image : '' %> alt="Italian Trulli">
+            
+            <%- include('../partials/labDisplayQuestion') %>
+
+            <h1>Answer Key:</h1>
+            <p><b>Research Scenario: </b> <%= typeof researchScenario != 'undefined' ? researchScenario : 'This is where the research scenario should be...' %></p>
+            <p><b>Directions: </b> <%= typeof Direction != 'undefined' ? Direction : 'This is where the directions should be...' %></p>
+            <img src=<%= typeof Image != 'undefined' ? Image : '' %> alt="Italian Trulli">
+            
+            <%- include('../partials/lab_key') %>
+
+            <button type="back" onclick="location.href='/user/studentdashboard';" value="Back" class="labButtons">Back</button>
         </div>
-        <div id="questionSetKey">
-            <%- showKey %> 
-        </div>
+
         <script type="text/javascript" src="/js/printPage.js"></script>
     </body>
-    <footer>
-        <%- include('../global_footer') %>
-    </footer>
 </html>
