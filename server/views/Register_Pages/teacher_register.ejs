@@ -12,7 +12,7 @@
 <h1 align="center">Create New Teacher Account</h1>
 <h2 align="center">Please sign up for an account to get started.</h2>
 <h3 align="center">Already have an account? <a href = "login">Login Here </a> </h3>
-<div class="btn">
+<div class="container">
 	<div class="center-t">
 		<button Name = "T" type="submit" onclick="window.location.href = 'teacherregister';"><span>Teacher</span></button>
 	</div>
@@ -20,6 +20,7 @@
 		<button Name = "T" type="submit" onclick="window.location.href = 'studentregister';"><span>Student</span></button>
 	</div>
 </div>
+<br><br><br><br>
 <div class="inputfields">
 	<form action="/teacherregister" method="POST">
 		<%- include('../partials/messages') %>

@@ -17,6 +17,7 @@
         <%- include('../partials/messages') %>
         <label for="emailadd"><b>Email Address</b></label><br>
         <input type="email" placeholder="Enter Email Address" name="emailadd" id="emailadd" value="<%= typeof emailaddress != 'undefined' ? emailaddress : '' %>" required>
+        <br><br>
         <label for="pass"><b>Password</b></label><br>
         <input type="password" placeholder="Enter Password" name="pass" id="pass" required>
         <br>
@@ -24,6 +25,12 @@
             <a href="passwordreset">Forgot Password</a>
         </div><br><Br>
         <input  type="submit" value="Submit">
+        <br>
+
+        <div style="text-align: center">
+    <a href="studentregister">Create an account</a>
+</div>
+
     </form>
 <br><br>
 </div>

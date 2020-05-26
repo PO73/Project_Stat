@@ -51,7 +51,10 @@ p.padding_about{
 		
 }
 
-
+.container{
+  position: relative;
+  width: 800px;
+}
 
 input[type=text],[type=password],[type=email]{
     width: 100%;
